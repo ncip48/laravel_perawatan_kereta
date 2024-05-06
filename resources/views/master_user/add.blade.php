@@ -23,6 +23,19 @@
                                         id="form-tambah-user">
                                         @csrf
                                         <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <select name="role" id="role" class="form-select">
+                                                <option>Pilih Role</option>
+                                                <option value="0">Admin</option>
+                                                <option value="1">Assman UPT DEPO</option>
+                                                <option value="2">SPV Ruas Luar</option>
+                                                <option value="3">Teknisi</option>
+                                            </select>
+                                            @error('role')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="id_kereta">Nama Kereta</label>
                                             <select name="id_kereta" id="id_kereta" class="form-select">
                                                 <option value="0">Pilih Kereta</option>
@@ -73,7 +86,7 @@
                                 <button type="submit" class="btn btn-primary" form="form-tambah-user"><i
                                         class="bi bi-save me-2"></i>
                                     Simpan</button>
-                                <a href="{{route('kategori_checksheet.index')}}" class="btn btn-danger ms-2"><i
+                                <a href="{{route('user.index')}}" class="btn btn-danger ms-2"><i
                                         class="bi bi-x-circle me-2"></i>
                                     Batal</a>
                             </div>
