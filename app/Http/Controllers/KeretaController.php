@@ -12,9 +12,9 @@ class KeretaController extends Controller
 
     public function index()
     {
-        $trains = Kereta::all();
+        $keretas = Kereta::all();
         $active = 'master_kereta';
-        return view('master_kereta.index', compact('trains', 'active'));
+        return view('master_kereta.index', compact('keretas', 'active'));
     }
     public function create()
     {
@@ -81,7 +81,24 @@ class KeretaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $keretas = Kereta::find($id);
+    
+    // If nomor_kereta is a string that should be split into an array
+    // if (is_string($kereta->nomor_kereta)) {
+    //     // Assuming the string is comma-separated
+    //     $kereta->nomor_kereta = explode(',', $kereta->nomor_kereta);
+    // }
+
+    if (isset($keretas->nomor_kereta)) {
+        // Menghapus bracket [ ] jika ada (belum work)
+        $keretas->nomor_kereta = str_replace(['[', ']','"'], '', $keretas->nomor_kereta);
+
+        // Jika perlu, bisa memisahkan menjadi array berdasarkan koma
+        $keretas->nomor_kereta = explode(',', $keretas->nomor_kereta);
+    }
+
+    $active = 'master_kereta';
+    return view('master_kereta.edit', compact('keretas', 'active'));
     }
 
     /**
@@ -89,7 +106,20 @@ class KeretaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_kereta' => 'required',
+            'nomor_kereta' => 'required',
+        ], [
+            'nama_kereta.required' => 'Nama kereta tidak boleh kosong',
+            'nomor_kereta.required' => 'Nomor kereta tidak boleh kosong',
+        ]);
+
+        $kereta = Kereta::find($id);
+        $kereta->nama_kereta = $request->nama_kereta;
+        $kereta->nomor_kereta = $request->nomor_kereta;
+        $kereta->save();
+
+        return redirect()->route('kereta.index')->with('status', 'Data Kereta berhasil diperbarui!');
     }
 
     /**
@@ -100,5 +130,18 @@ class KeretaController extends Controller
         //
         Kereta::destroy($id);
         return redirect()->route('kereta.index')->with('status', 'Data Kereta berhasil dihapus!');
+    }
+
+    // hapusnomor
+    public function hapusnomor(Request $request)
+    {
+
+        dd($request->all());
+        $kereta = Kereta::find($request->id);
+        $nomor_kereta = json_decode($kereta->nomor_kereta);
+        $nomor_kereta = array_diff($nomor_kereta, [$request->nomor_kereta]);
+        $kereta->nomor_kereta = json_encode(array_values($nomor_kereta));
+        $kereta->save();
+        return redirect()->route('kereta.edit', $request->id)->with('status', 'Nomor Kereta berhasil dihapus!');
     }
 }

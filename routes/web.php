@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
 
     //master kereta
     Route::resource('kereta', KeretaController::class);
+    //hapusnomor
+    Route::get('kereta/hapusnomor/{id}', [KeretaController::class, 'hapusnomor'])->name('kereta.hapusnomor');
 
     //kategori sparepart
     Route::resource('kategori', KategorisparepartController::class);
@@ -57,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('kategori_checksheet/filter/{id}', [KategoriChecksheetController::class, 'filter'])->name('kategori_checksheet.filter');
     Route::get('item_checksheet/filter/{id}', [ItemChecksheetController::class, 'filter'])->name('item_checksheet.filter');
     Route::get('checksheet/filter/{id}', [ChecksheetController::class, 'filter'])->name('checksheet.filter');
+    //hapusnomor
+    
 //master_user
     Route::resource('user', UserController::class);
 
