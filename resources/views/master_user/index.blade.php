@@ -46,8 +46,9 @@
                                             <th>No</th>
                                             <th>NIP</th>
                                             <th>Nama</th>
+                                            <th>Role</th>
                                             <th>Email</th>
-                                            <th>Password</th>
+                                            {{-- <th>Password</th> --}}
                                             <th>Kereta</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -58,8 +59,19 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->nip }}</td>
                                                 <td>{{ $item->name }}</td>
+                                                <td>
+                                                    @if ($item->role == 0)
+                                                        <p class="badge bg-success">Admin</p>
+                                                    @elseif ($item->role == 1)
+                                                    <p class="badge bg-warning">Assman</p>
+                                                    @elseif ($item->role == 2)
+                                                    <p class="badge bg-primary">SPV</p>
+                                                    @elseif ($item->role == 3)
+                                                    <p class="badge bg-info">Teknisi</p>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $item->email }}</td>
-                                                <td>{{ $item->email }}</td>
+                                                {{-- <td>{{ $item->password }}</td> --}}
                                                 <td>{{ $item->nama_kereta }}</td>
                                                 <td>
                                                     <a href="{{ route('user.edit', $item->id) }}"
