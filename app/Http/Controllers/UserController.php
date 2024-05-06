@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $active = 'user';
+        $active = 'master_user';
         $users = User::select('users.*', 'master_kereta.nama_kereta')
             ->join('master_kereta','users.id_kereta','=','master_kereta.id')
             ->get();
