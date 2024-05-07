@@ -11,6 +11,8 @@
             margin-top: 0.2cm;
             margin-bottom: 0.3cm;
             margin-left: 1.5cm;
+            margin-left: 1cm;
+
         }
 
         @page {
@@ -127,10 +129,10 @@
         <table class="kelas">
             <thead>
                 <tr>
-                    <th style="text-align: center;">No</th>
-                    <th style="text-align: center;">Tanggal</th>
-                    <th style="text-align: center;">Jenis Perawatan</th>
-                    <th style="text-align: center;">Status Sarana</th>
+                    <th style="text-align: center;width:10%">No</th>
+                    <th style="text-align: center;width:20%">Tanggal</th>
+                    <th style="text-align: center;width:15%">Jenis Perawatan</th>
+                    <th style="text-align: center;width:15%">Status Sarana</th>
                     <th style="text-align: center;">Keterangan</th>
                 </tr>
             </thead>
