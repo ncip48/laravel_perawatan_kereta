@@ -121,6 +121,10 @@
                         <a href="{{ url('photo') }}" class="{{ $active == 'photo' ? 'active' : '' }}">
                             <i class="material-icons-two-tone">perm_media</i>Foto Checksheet</a>
                     </li>
+                    <li>
+                        <a href="{{ url('so') }}" class="{{ $active == 'so' ? 'active' : '' }}">
+                            <i class="material-icons-two-tone">receipt_long</i>SO/TSO</a>
+                    </li>
                     {{-- <li>
                         <a href="#" class="{{ $active == 'laporan' ? 'active' : '' }}">
                             <i class="material-icons-two-tone">receipt_long</i>Berita Acara</a>

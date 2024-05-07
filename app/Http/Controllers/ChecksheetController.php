@@ -201,4 +201,57 @@ class ChecksheetController extends Controller
         $active = 'master_checksheet';
         return view('master_checksheet.checksheet.index', compact('checksheets', 'keretas', 'active'));
     }
+
+    public function report_so()
+    {
+        $detail = Checksheet::all();
+        //groupBy date_time checksheet by month
+        $detail = $detail->map(function ($item) {
+            $item->bulan = Carbon::parse($item->date_time)->translatedFormat('F Y');
+            return $item;
+        });
+        //group by but return array example [{month:1,year:2021},{month:2,year:2021}]
+        $detail = $detail->groupBy('bulan')->map(function ($item) {
+            return [
+                'month' => Carbon::parse($item[0]->date_time)->month,
+                'year' => Carbon::parse($item[0]->date_time)->year,
+                'nama_bulan' => $item[0]->bulan,
+            ];
+        });
+        //remove keys
+        $detail = array_values($detail->toArray());
+        //change to stdClass
+        $detail = json_decode(json_encode($detail));
+        $keretas = Kereta::all();
+        $active = 'so';
+        return view('so.index', compact('active', 'detail', 'keretas'));
+    }
+
+    public function print_report_so(Request $request)
+    {
+        //get bulan & tahun in query params
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+        $detail = Kereta::find(1);
+        $detail->checksheet = Checksheet::whereMonth('date_time', $bulan)
+            ->whereYear('date_time', $tahun)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $detail->checksheet = $detail->checksheet->map(function ($item) {
+            $item->tanggal = Carbon::parse($item->date_time)->translatedFormat('d F Y');
+
+            return $item;
+        });
+
+        $bulan = strtoupper(Carbon::parse($detail->checksheet[0]->datetime)->translatedFormat('F'));
+        $tahun = strtoupper(Carbon::parse($detail->checksheet[0]->datetime)->year);
+
+        $active = 'Foto';
+        // return view('so.print', compact('active', 'detail', 'bulan', 'tahun'));
+
+        $pdf = Pdf::loadView('so.print', compact('active', 'detail', 'bulan', 'tahun'));
+        $pdf->setPaper('A4', 'potrait');
+        return $pdf->stream('foto.pdf');
+    }
 }

@@ -42,7 +42,6 @@
 
         td>.underline {
             display: inline-block;
-            width: 80%;
             border-bottom: 2px solid black;
         }
 
@@ -159,7 +158,7 @@
         </div>
 
         <h3 class="text"> SHEET PERAWATAN {{ $detail->nama_kereta }} <BR> PEMERIKSAAN
-            {{ $detail->tipe == '0' ? 'HARIAN' : 'BULANAN' }}
+            {{ $detail->tipe == '0' ? 'HARIAN' : $detail->p }}
         </h3>
 
         <div class="header-table">
