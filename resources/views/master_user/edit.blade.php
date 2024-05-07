@@ -20,21 +20,21 @@
                             <div class="card-body">
                                 <div class="card-content">
                                     <form action="{{ route('user.update', $users->id) }}" autocomplete="off"
-                                        id="form-edit-user">
+                                        id="form-edit-user" method="POST">
                                         @csrf
-                                        @method('post')
+                                        @method('put')
                                         {{-- <input type="hidden" name="id" value="{{ $users->id }}"> --}}
                                         <div class="form-group mb-3">
                                             <label for="role">Role</label>
                                             <select name="role" id="role" class="form-select">
-                                                <option>Pilih Role</option>
+                                                <option value="">Pilih Role</option>
                                                 <option value="0" {{ $users->role == 0 ? 'selected' : '' }}>Admin
                                                 </option>
                                                 <option value="1" {{ $users->role == 1 ? 'selected' : '' }}>Assman UPT
                                                     DEPO</option>
-                                                <option value="1" {{ $users->role == 2 ? 'selected' : '' }}>SPV Ruas
+                                                <option value="2" {{ $users->role == 2 ? 'selected' : '' }}>SPV Ruas
                                                     Luar</option>
-                                                <option value="1" {{ $users->role == 3 ? 'selected' : '' }}>Teknisi
+                                                <option value="3" {{ $users->role == 3 ? 'selected' : '' }}>Teknisi
                                                 </option>
                                             </select>
                                             @error('role')
@@ -44,9 +44,10 @@
                                         <div class="form-group">
                                             <label for="id_kereta">Nama Kereta</label>
                                             <select name="id_kereta" id="id_kereta" class="form-select">
-                                                <option value="0">Pilih Kereta</option>
+                                                <option value="">Pilih Kereta</option>
                                                 @foreach ($keretas as $item)
-                                                    <option value="{{ $item->id }}" {{ $users->id_kereta == $item->id ? 'selected' : '' }}>
+                                                    <option value="{{ $item->id }}"
+                                                        {{ $users->id_kereta == $item->id ? 'selected' : '' }}>
                                                         {{ $item->nama_kereta }}</option>
                                                 @endforeach
                                             </select>
@@ -56,7 +57,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="nip">NIP</label>
-                                            <input type="text" id="nip" class="form-control" name="nip" value="{{ $users->nip }}">
+                                            <input type="text" id="nip" class="form-control" name="nip"
+                                                value="{{ $users->nip }}">
                                             @error('nip')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -64,7 +66,8 @@
                                         <div class="form-group">
                                             <label for="name">Nama</label>
                                             <input type="text" id="name" class="form-control"
-                                                placeholder="Masukkan Nama Karyawan" name="name" value="{{ $users->name }}">
+                                                placeholder="Masukkan Nama Karyawan" name="name"
+                                                value="{{ $users->name }}">
                                             @error('name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -72,15 +75,17 @@
                                         <div class="form-group">
                                             <label for="email">Email</label>
                                             <input type="email" id="email" class="form-control"
-                                                placeholder="Masukkan email Karyawan" name="email" value="{{ $users->email }}">
+                                                placeholder="Masukkan email Karyawan" name="email"
+                                                value="{{ $users->email }}">
                                             @error('email')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password Baru</label>
-                                            <input type="text" id="password" class="form-control"
+                                            <input type="password" id="password" class="form-control"
                                                 placeholder="Masukkan password Karyawan" name="password">
+                                            <span class="text-muted">Abaikan jika tidak ingin mengganti password</span>
                                             @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
