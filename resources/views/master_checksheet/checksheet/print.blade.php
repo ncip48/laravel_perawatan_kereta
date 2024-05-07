@@ -145,16 +145,14 @@
 <body>
     <div>
         <div class="logo-container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Logo_PT_Kereta_Api_Indonesia_%28Persero%29_2020.svg/768px-Logo_PT_Kereta_Api_Indonesia_%28Persero%29_2020.svg.png"
-                alt="Logo KAI" style="height: 40px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Logo_PT_Kereta_Api_Indonesia_%28Persero%29_2020.svg/768px-Logo_PT_Kereta_Api_Indonesia_%28Persero%29_2020.svg.png" alt="Logo KAI" style="height: 40px;">
             {{-- <img src="{{ asset('templates/source/assets/images/inka-border.png') }}"
-                alt="Logo KAI" style="height: 50px;"> --}}
+            alt="Logo KAI" style="height: 50px;"> --}}
             {{-- <img src="{{ asset('templates/source/assets/images/logo_inka.png') }}"
-                alt="Logo PT INKA" style="height: 50px; margin-top: 1rem; margin-left: 18em;"> --}}
+            alt="Logo PT INKA" style="height: 50px; margin-top: 1rem; margin-left: 18em;"> --}}
             {{-- <img src="{{ asset('templates/source/assets/images/inka-border.png') }}" alt="Logo PT IMSS"
-                style="height: 40px; margin-bottom: 1rem;"> --}}
-            <img src="https://imsservice.co.id/assets/inka-border.png" alt="Logo PT IMSS"
-                style="height: 40px; margin-left: 30em; margin-bottom: 1rem;">
+            style="height: 40px; margin-bottom: 1rem;"> --}}
+            <img src="https://imsservice.co.id/assets/inka-border.png" alt="Logo PT IMSS" style="height: 40px; margin-left: 30em; margin-bottom: 1rem;">
         </div>
 
         <h3 class="text"> SHEET PERAWATAN {{ $detail->nama_kereta }} <BR> PEMERIKSAAN
@@ -195,59 +193,55 @@
                 </tr>
             </thead>
             @foreach ($categories as $category)
-                <tbody>
-                    <tr>
-                        <td style="border: 1px solid #ccc; font-weight:bold;" colspan="7"> {{ $category->nama }}
-                        </td>
-                    </tr>
-                    @forelse ($category->lists as $list)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $list->nama_item }}</td>
-                            <td style="text-align: center">
-                                @if ($list->dilakukan == '1')
-                                    <img class="icon" src="templates/source/assets/images/check-symbol.png"
-                                        alt="">
-                                @endif
-                            </td>
-                            <td style="text-align: center">
-                                @if ($list->dilakukan == '0')
-                                    <img class="icon" src="templates/source/assets/images/check-symbol.png"
-                                        alt="">
-                                @endif
-                            </td>
-                            <td style="text-align: center">
-                                @if ($list->hasil == '1')
-                                    <img class="icon" src="templates/source/assets/images/check-symbol.png"
-                                        alt="">
-                                @endif
-                            </td>
-                            <td style="text-align: center">
-                                @if ($list->hasil == '0')
-                                    <img class="icon" src="templates/source/assets/images/check-symbol.png"
-                                        alt="">
-                                @endif
-                            </td>
-                            <td>{{ $list->keterangan }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" style="text-align: center">Tidak ada data</td>
-                        </tr>
-                    @endforelse
-                </tbody>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #ccc; font-weight:bold;" colspan="7"> {{ $category->nama }}
+                    </td>
+                </tr>
+                @forelse ($category->lists as $list)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $list->nama_item }}</td>
+                    <td style="text-align: center">
+                        @if ($list->dilakukan == '1')
+                        <img class="icon" src="templates/source/assets/images/check-symbol.png" alt="">
+                        @endif
+                    </td>
+                    <td style="text-align: center">
+                        @if ($list->dilakukan == '0')
+                        <img class="icon" src="templates/source/assets/images/check-symbol.png" alt="">
+                        @endif
+                    </td>
+                    <td style="text-align: center">
+                        @if ($list->hasil == '1')
+                        <img class="icon" src="templates/source/assets/images/check-symbol.png" alt="">
+                        @endif
+                    </td>
+                    <td style="text-align: center">
+                        @if ($list->hasil == '0')
+                        <img class="icon" src="templates/source/assets/images/check-symbol.png" alt="">
+                        @endif
+                    </td>
+                    <td>{{ $list->keterangan }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="7" style="text-align: center">Tidak ada data</td>
+                </tr>
+                @endforelse
+            </tbody>
             @endforeach
         </table>
 
         <h4 class="mt-4">Setelah dilakukan pemeriksaan dinyatakan kereta :
             @if (isset($detail->is_so))
-                @if ($detail->is_so == 1)
-                    SO
-                @elseif($detail->is_so == 0)
-                    TSO
-                @endif
+            @if ($detail->is_so == 1)
+            SO
+            @elseif($detail->is_so == 0)
+            TSO
+            @endif
             @else
-                SO/TSO
+            SO/TSO
             @endif
         </h4>
 
@@ -264,11 +258,13 @@
                 {{-- <td>PT Inka Multi Solusi service</td> --}}
                 <td>PT Inka Multi Solusi service</td>
             </tr>
-            <tr>
+            <tr style="text-align: center;">
                 <td style="height: 75px"></td>
                 <td style="height: 75px"></td>
-                <td style="height: 75px"></td>
-                <td style="height: 75px"></td>
+                <td style="">
+                    @php $sign_teknisi = $detail->teknisi->nip . '|' . $detail->teknisi->name @endphp
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_teknisi)) !!} ">
+                </td>
             </tr>
             <tr style="text-align: center;">
                 <td><span class="underline">SUHANA SENJAYA</span></td>

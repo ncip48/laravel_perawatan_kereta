@@ -185,6 +185,8 @@ class ChecksheetController extends Controller
             return $item;
         });
 
+        // return view('master_checksheet.checksheet.print', compact('detail', 'categories'));
+
 
         $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories'));
         $pdf->setPaper('A4', 'potrait');
