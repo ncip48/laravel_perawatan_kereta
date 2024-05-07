@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kereta;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -88,7 +89,10 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nip' => 'required',
+            'nip' => [
+                'required',
+                Rule::unique('users')->ignore($id),
+            ],
             'name' => 'required',
             'id_kereta' => 'required',
             'email' => 'required',
