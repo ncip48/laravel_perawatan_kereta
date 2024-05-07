@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="text" id="password" class="form-control"
+                                            <input type="password" id="password" class="form-control"
                                                 placeholder="Masukkan password Karyawan" name="password">
                                             @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
