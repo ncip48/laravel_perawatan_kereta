@@ -125,13 +125,13 @@
                         <a href="#" class="{{ $active == 'laporan' ? 'active' : '' }}">
                             <i class="material-icons-two-tone">receipt_long</i>Berita Acara</a>
                     </li> --}}
-                    <li class="sidebar-title">
+                    {{-- <li class="sidebar-title">
                         Webapp
                     </li>
                     <li>
                         <a href="http://localhost:8100/autologin?nip={{ $enc }}" target="_blank">
                             <i class="material-icons-two-tone">smartphone</i>Login Webapp</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
