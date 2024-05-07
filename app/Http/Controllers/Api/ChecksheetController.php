@@ -91,7 +91,6 @@ class ChecksheetController extends Controller
         $positionX2 = $width - strlen($watermarkText) - $margin;
         $positionY2 = $height - ($margin * 2);
 
-
         $mark = $timestamp . '_mark.' . $extension;
 
         $image->text($watermarkText, $positionX2, $positionY2, function (FontFactory $font) use ($fontSize) {

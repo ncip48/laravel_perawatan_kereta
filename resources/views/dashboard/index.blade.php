@@ -74,6 +74,115 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card widget widget-stats-large">
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <div class="widget-stats-large-chart-container">
+                                    <div class="card-header">
+                                        <h5 class="card-title">SO/TSO Tahunan<span
+                                                class="badge badge-light badge-style-light">2024</span></h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="apex-earnings"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var options1 = {
+            chart: {
+                height: 350,
+                type: "bar",
+                toolbar: {
+                    show: false,
+                },
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: "55%",
+                    endingShape: "rounded",
+                    borderRadius: 10,
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ["transparent"],
+            },
+            series: [{
+                    name: "SO",
+                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+                },
+                {
+                    name: "TSO",
+                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+                },
+            ],
+            xaxis: {
+                categories: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "Mei",
+                    "Jun",
+                    "Jul",
+                    "Ags",
+                    "Sep",
+                    "Okt",
+                    "Nov",
+                    "Des",
+                ],
+                labels: {
+                    style: {
+                        colors: "rgba(94, 96, 110, .5)",
+                    },
+                },
+            },
+            yaxis: {
+                title: {
+                    text: "Jumlah",
+                },
+            },
+            fill: {
+                opacity: 1,
+
+            },
+            colors: ['#28a745', '#dc3545'],
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val;
+                    },
+                },
+            },
+            grid: {
+                borderColor: "#e2e6e9",
+                strokeDashArray: 4,
+            },
+        };
+        var chart1 = new ApexCharts(
+            document.querySelector("#apex-earnings"),
+            options1
+        );
+
+        chart1.render();
+    </script>
+@endpush
