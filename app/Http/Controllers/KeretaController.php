@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class KeretaController extends Controller
 {
- 
+
 
     public function index()
     {
@@ -20,7 +20,7 @@ class KeretaController extends Controller
     {
         //
         $active = 'master_kereta';
-        return view('master_kereta.add',compact('active'));
+        return view('master_kereta.add', compact('active'));
     }
     /**
      * Store a newly created resource in storage.
@@ -53,17 +53,17 @@ class KeretaController extends Controller
         //     $foto = null;
         // }
 
-        
-    $nomor_keretas = json_encode($request->nomor_kereta);
+
+        $nomor_keretas = json_encode($request->nomor_kereta);
         $kereta = new Kereta;
-       $kereta->username = $request->username;
+        $kereta->username = $request->username;
         $kereta->password = Hash::make($request->password);
         // $kereta->password = $request->password;
         $kereta->nama_kereta = $request->nama_kereta;
         $kereta->nomor_kereta = $nomor_keretas;
         // $kereta->foto = $foto;
         $kereta->save();
-// dump($kereta);
+        // dump($kereta);
 
         return redirect()->route('kereta.index')->with('status', 'Data Kereta berhasil ditambahkan!');
     }
@@ -82,23 +82,24 @@ class KeretaController extends Controller
     public function edit(string $id)
     {
         $keretas = Kereta::find($id);
-    
-    // If nomor_kereta is a string that should be split into an array
-    // if (is_string($kereta->nomor_kereta)) {
-    //     // Assuming the string is comma-separated
-    //     $kereta->nomor_kereta = explode(',', $kereta->nomor_kereta);
-    // }
 
-    if (isset($keretas->nomor_kereta)) {
-        // Menghapus bracket [ ] jika ada (belum work)
-        $keretas->nomor_kereta = str_replace(['[', ']','"'], '', $keretas->nomor_kereta);
+        // If nomor_kereta is a string that should be split into an array
+        // if (is_string($kereta->nomor_kereta)) {
+        //     // Assuming the string is comma-separated
+        //     $kereta->nomor_kereta = explode(',', $kereta->nomor_kereta);
+        // }
 
-        // Jika perlu, bisa memisahkan menjadi array berdasarkan koma
-        $keretas->nomor_kereta = explode(',', $keretas->nomor_kereta);
-    }
+        if (isset($keretas->nomor_kereta)) {
+            // Menghapus bracket [ ] jika ada (belum work)
+            // $keretas->nomor_kereta = str_replace(['[', ']','"'], '', $keretas->nomor_kereta);
+            $keretas->nomor_kereta = json_decode($keretas->nomor_kereta);
 
-    $active = 'master_kereta';
-    return view('master_kereta.edit', compact('keretas', 'active'));
+            // Jika perlu, bisa memisahkan menjadi array berdasarkan koma
+            // $keretas->nomor_kereta = explode(',', $keretas->nomor_kereta);
+        }
+
+        $active = 'master_kereta';
+        return view('master_kereta.edit', compact('keretas', 'active'));
     }
 
     /**
