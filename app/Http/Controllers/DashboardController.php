@@ -40,6 +40,18 @@ class DashboardController extends Controller
             return $total ? $total->total : 0;
         });
 
-        return view('dashboard.index', compact('active', 'keretas', 'spareparts', 'checksheet', 'checksheet_so', 'checksheet_tso'));
+        $checksheet_so_m = Checksheet::selectRaw('COUNT(is_so) as total')
+            ->where('is_so', "1")
+            ->whereMonth('date_time', date('m'))
+            ->count();
+
+        $checksheet_tso_m = Checksheet::selectRaw('COUNT(is_so) as total')
+            ->where('is_so', "0")
+            ->whereMonth('date_time', date('m'))
+            ->count();
+
+        $checksheet_m = [$checksheet_so_m, $checksheet_tso_m];
+
+        return view('dashboard.index', compact('active', 'keretas', 'spareparts', 'checksheet', 'checksheet_so', 'checksheet_tso', 'checksheet_m'));
     }
 }
