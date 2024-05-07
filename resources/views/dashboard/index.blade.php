@@ -82,7 +82,7 @@
                                 <div class="widget-stats-large-chart-container">
                                     <div class="card-header">
                                         <h5 class="card-title">SO/TSO Tahunan<span
-                                                class="badge badge-light badge-style-light">2024</span></h5>
+                                                class="badge badge-light badge-style-light">{{date('Y')}}</span></h5>
                                     </div>
                                     <div class="card-body">
                                         <div id="apex-earnings"></div>
@@ -102,6 +102,10 @@
 
 @push('scripts')
     <script>
+        //retrieve from $checksheet_so
+        var so = @json($checksheet_so);
+        var tso = @json($checksheet_tso);
+
         var options1 = {
             chart: {
                 height: 350,
@@ -128,11 +132,11 @@
             },
             series: [{
                     name: "SO",
-                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+                    data: so,
                 },
                 {
                     name: "TSO",
-                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+                    data: tso,
                 },
             ],
             xaxis: {
