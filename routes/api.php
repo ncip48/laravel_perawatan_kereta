@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('so', [App\Http\Controllers\Api\ChecksheetController::class, 'changeSO']);
 
     Route::get('foto', [FotoController::class, 'print']);
+
+    Route::get('train-number', [App\Http\Controllers\Api\KeretaController::class, 'getTrainNumber']);
 });
 Route::post('upload-foto', [App\Http\Controllers\Api\ChecksheetController::class, 'uploadFoto']);
 Route::post('v2/upload-foto', [App\Http\Controllers\Api\ChecksheetController::class, 'uploadFotov2']);

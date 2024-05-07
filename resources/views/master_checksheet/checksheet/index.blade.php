@@ -48,7 +48,7 @@
                                             <th>Nama Kereta</th>
                                             {{-- <th>No Kereta</th> --}}
                                             <th>Tipe Laporan</th>
-                                            {{-- <th>Jam Engine</th> --}}
+                                            <th>SO/TSO</th>
                                             <th>Assman UPT</th>
                                             <th>SPV UPT</th>
                                             <th>Dibuat Oleh</th>
@@ -70,7 +70,17 @@
                                                         <span class="badge bg-warning">{{ $item->p }}</span>
                                                     @endif
                                                 </td>
-                                                {{-- <td>{{ $item->jam_engine }}</td> --}}
+                                                <td>
+                                                    @if (isset($item->is_so))
+                                                        @if ($item->is_so == '0')
+                                                            <span class="badge bg-danger">TSO</span>
+                                                        @else
+                                                            <span class="badge bg-success">SO</span>
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
                                                 <td>nama asman</td>
                                                 <td>nama spv</td>
                                                 <td>{{ $item->name }}</td>
@@ -105,8 +115,8 @@
         </div>
         @foreach ($checksheets as $item)
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal-{{ $item->id }}" tabindex="1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal-{{ $item->id }}" tabindex="1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

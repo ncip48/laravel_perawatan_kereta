@@ -65,4 +65,15 @@ class KeretaController extends Controller
     {
         //
     }
+
+    public function getTrainNumber()
+    {
+        $authuser = auth()->user();
+        $id_kereta = $authuser->id_kereta;
+
+        $train = Kereta::where('id', $id_kereta)->first();
+        $train_numbers = json_decode($train->nomor_kereta);
+
+        return ResponseController::customResponse(true, 'Berhasil mendapatkan nomor kereta', $train_numbers);
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\Foto;
 use App\Models\Item_checksheet;
 use App\Models\Kategori_checksheet;
 use App\Models\Kereta;
+use App\Models\User;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -36,7 +37,7 @@ class ChecksheetController extends Controller
             // ->where('checksheet.id', '=', 'detail_checksheet.id_checksheet')
             ->get();
         $keretas = Kereta::all();
-// dump($checksheets);
+        // dump($checksheets);
         return view('master_checksheet.checksheet.index', compact('active', 'checksheets', 'keretas', 'detail'));
     }
 
@@ -163,19 +164,13 @@ class ChecksheetController extends Controller
         setlocale(LC_TIME, 'id_ID.utf8');
         Carbon::setLocale('id');
 
-        $photo = Foto::select('foto.*', 'detail_checksheet.*', 'item_checksheet.*', 'checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime')
-            ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
-            ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
-            ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
-            ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
-            ->get();
-
         $detail = Checksheet::select('checksheet.*', 'master_kereta.nama_kereta')
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->where('checksheet.id', $id)
             ->first();
         $detail->tanggal = Carbon::parse($detail->date_time)->isoFormat('dddd, D MMMM Y');
         $detail->jam = Carbon::parse($detail->date_time)->isoFormat('HH:mm');
+        $detail->teknisi = User::where('id', $detail->id_user)->first();
 
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
@@ -191,22 +186,10 @@ class ChecksheetController extends Controller
         });
 
 
-        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'photo'));
+        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories'));
         $pdf->setPaper('A4', 'potrait');
         $title = $detail->nama_kereta;
         return $pdf->stream($title . '.pdf');
-        // $pdf2 = Pdf::loadview('master_checksheet.checksheet.print2', compact('detail', 'categories', 'photo'));
-        // $pdf2->setPaper('A4', 'potrait');
-        // //join pdf 1 dan 2
-        // $merger = new Merger;
-        // $merger->addRaw($pdf->output());
-        // $merger->addRaw($pdf2->output());
-        // $pdf_final = $merger->merge();
-
-        // $title = $detail->nama_kereta;
-        // return response($pdf_final)
-        //     ->header('Content-Type', 'application/pdf')
-        //     ->header('Content-Disposition', "inline;filename='$title.pdf'");
     }
 
     public function filter($id)

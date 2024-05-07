@@ -32,13 +32,9 @@ class KategoriController extends Controller
     {
         $type = $request->type;
         $authuser = auth()->user();
-        if ($type == 0) {
-            $data = Checksheet::where('id_kereta', $authuser->id_kereta)->whereDate('date_time', Carbon::today()->setTimezone('Asia/Jakarta'))->where('tipe', $type);
-        } else {
-            //get by this mont and type == 1
-            $data = Checksheet::where('id_kereta', $authuser->id_kereta)->whereMonth('date_time', Carbon::now()->setTimezone('Asia/Jakarta')->month)->where('tipe', $type);
-        }
         $result = [];
+        // if ($type == 0) {
+        $data = Checksheet::where('id_kereta', $authuser->id_kereta)->whereDate('date_time', Carbon::today()->setTimezone('Asia/Jakarta'))->where('tipe', $type);
         if ($data->count() == 0) {
             $result = [
                 'found' => false,
@@ -50,6 +46,12 @@ class KategoriController extends Controller
                 'data' => $data->first()
             ];
         }
+        // } else {
+        //     $result = [
+        //         'found' => false,
+        //         'data' => null,
+        //     ];
+        // }
         return ResponseController::customResponse(true, 'Berhasil mendapakan checksheet!', $result);
     }
 
@@ -92,7 +94,7 @@ class KategoriController extends Controller
         }
 
         $data = Checksheet::create([
-            'id_kereta' => 1, //URGENT
+            'id_kereta' => $authuser->id_kereta, //URGENT
             'id_user' => $authuser->id,
             'date_time' => Carbon::now()->setTimezone('Asia/Jakarta'),
             'no_kereta' => $request->no_kereta,

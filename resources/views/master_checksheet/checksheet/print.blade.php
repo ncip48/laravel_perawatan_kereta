@@ -13,7 +13,7 @@
             margin-left: 1.5cm;
         }
 
-        @page{
+        @page {
             margin-top: 0.2cm;
             margin-bottom: 0.3cm;
             margin-left: 1.5cm;
@@ -42,6 +42,7 @@
 
         td>.underline {
             display: inline-block;
+            width: 80%;
             border-bottom: 2px solid black;
         }
 
@@ -239,7 +240,17 @@
             @endforeach
         </table>
 
-        <h4 class="mt-4">Setelah dilakukan pemeriksaan dinyatakan kereta : SO/TSO</h4>
+        <h4 class="mt-4">Setelah dilakukan pemeriksaan dinyatakan kereta :
+            @if (isset($detail->is_so))
+                @if ($detail->is_so == 1)
+                    SO
+                @elseif($detail->is_so == 0)
+                    TSO
+                @endif
+            @else
+                SO/TSO
+            @endif
+        </h4>
 
         <table style="margin-top: 5rem;">
             <tr style="text-align: center;">
@@ -264,11 +275,12 @@
                 <td><span class="underline">SUHANA SENJAYA</span></td>
                 <td><span class="underline">TRI WIYONO</span></td>
                 {{-- <td><span class="underline">____________</span> </td> --}}
-                <td><span class="underline">____________</span></td>
+                <td><span class="underline">{{ $detail->teknisi->name }}</span></td>
             </tr>
             <tr>
-                <td style="vertical-align: top;text-align: center">NIPP. 44733</td>
-                <td style="vertical-align: top;text-align: center"> NIPP. 41493</td>
+                <td style="vertical-align: top;text-align: center">NIP. 44733</td>
+                <td style="vertical-align: top;text-align: center"> NIP. 41493</td>
+                <td style="vertical-align: top;text-align: center"> NIP. {{ $detail->teknisi->nip }}</td>
             </tr>
         </table>
     </div>
