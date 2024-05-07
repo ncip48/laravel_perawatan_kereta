@@ -250,7 +250,22 @@ class ChecksheetController extends Controller
         $active = 'Foto';
         // return view('so.print', compact('active', 'detail', 'bulan', 'tahun'));
 
-        $pdf = Pdf::loadView('so.print', compact('active', 'detail', 'bulan', 'tahun'));
+        $availability_so = $detail->checksheet->where('is_so', "1")->count();
+        $availability_tso = $detail->checksheet->where('is_so', "0")->count();
+
+        $availability_so_p = ($availability_so / $detail->checksheet->count()) * 100;
+        $availability_tso_p = ($availability_tso / $detail->checksheet->count()) * 100;
+
+        $availability = [
+            'so' => $availability_so,
+            'tso' => $availability_tso,
+            'so_p' => round($availability_so_p),
+            'tso_p' => round($availability_tso_p),
+        ];
+
+        // dd($availability);
+
+        $pdf = Pdf::loadView('so.print', compact('active', 'detail', 'bulan', 'tahun', 'availability'));
         $pdf->setPaper('A4', 'potrait');
         return $pdf->stream('foto.pdf');
     }
