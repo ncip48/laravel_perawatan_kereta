@@ -15,7 +15,8 @@ class DashboardController extends Controller
         $active = 'dashboard';
         $keretas = Kereta::count();
         $spareparts = Sparepart::count();
-        $checksheet = Checksheet::count();
+        //checksheet where this month date_time and this year date_time
+        $checksheet = Checksheet::whereMonth('date_time', date('m'))->whereYear('date_time', date('Y'))->count();
 
         //count is_so = "1" group by month in column "date_time" where this year in model Checksheet
         $checksheet_so = Checksheet::selectRaw('MONTH(date_time) as month, COUNT(is_so) as total')
