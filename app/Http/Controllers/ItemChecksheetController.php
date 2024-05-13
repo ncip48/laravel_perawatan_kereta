@@ -51,8 +51,9 @@ class ItemChecksheetController extends Controller
             'id_kereta.required' => 'Nama kereta tidak boleh kosong',
             'id_kategori_checksheet.required' => 'Nama kategori tidak boleh kosong'
         ]);
+        // dd($request->all());
         Item_checksheet::create($request->all());
-        return redirect()->route('item_checksheet.index')->with('success', 'Data Item Checksheet berhasil ditambahkan!');
+        return redirect()->route('item_checksheet.index')->with('status', 'Data Item Checksheet berhasil ditambahkan!');
     }
 
     /**
@@ -91,13 +92,19 @@ class ItemChecksheetController extends Controller
             'id_kereta.required' => 'Nama kereta tidak boleh kosong',
             'id_kategori_checksheet.required' => 'Nama kategori tidak boleh kosong'
         ]);
+        // dd($request->all());
         Item_checksheet::where('id', $id)
             ->update([
                 'nama_item' => $request->nama_item,
                 'id_kereta' => $request->id_kereta,
-                'id_kategori_checksheet' => $request->id_kategori_checksheet
+                'id_kategori_checksheet' => $request->id_kategori_checksheet,
+                'harian' => $request->harian,
+                'p1' => $request->p1,
+                'p3' => $request->p3,
+                'p6' => $request->p6,
+                'p12' => $request->p12,
             ]);
-        return redirect()->route('item_checksheet.index')->with('success', 'Data Item Checksheet berhasil diubah!');
+        return redirect()->route('item_checksheet.index')->with('status', 'Data Item Checksheet berhasil diubah!');
     }
 
     /**

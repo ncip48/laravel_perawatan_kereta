@@ -48,8 +48,8 @@
                                     {{-- <th>No Kereta</th> --}}
                                     <th>Tipe Laporan</th>
                                     <th>SO/TSO</th>
-                                    <th>Assman UPT</th>
-                                    <th>SPV UPT</th>
+                                    {{-- <th>Assman UPT</th>
+                                    <th>SPV UPT</th> --}}
                                     <th>Dibuat Oleh</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -80,8 +80,6 @@
                                         -
                                         @endif
                                     </td>
-                                    <td>nama asman</td>
-                                    <td>nama spv</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
                                         <a href="{{ route('checksheet.show', $item->id) }}" class="btn btn-sm btn-primary mb-1">
