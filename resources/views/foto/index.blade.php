@@ -38,7 +38,7 @@
                                                 <td>Checksheet Bulan {{ $item->nama_bulan }}</td>
                                                 <td>
                                                     <a href="{{ route('photo.print', ['bulan' => $item->month, 'tahun' => $item->year]) }}"
-                                                        class="btn btn-sm btn-success mb-1">
+                                                        class="btn btn-sm btn-success mb-1" target="_blank">
                                                         {{-- <a href="" class="btn btn-sm btn-success mb-1"> --}}
                                                         <i class="material-icons">print</i>Cetak
                                                     </a>
