@@ -26,7 +26,7 @@ class DashboardController extends Controller
             ->groupBy('month')
             ->get();
         // looping number 1-12 then mapping $checksheet_so to month if not exist return 0 value
-        $checksheet_so = collect(range(0, 11))->map(function ($month) use ($checksheet_so) {
+        $checksheet_so = collect(range(1, 12))->map(function ($month) use ($checksheet_so) {
             $total = $checksheet_so->where('month', $month)->first();
             return $total ? $total->total : 0;
         });
@@ -37,7 +37,7 @@ class DashboardController extends Controller
             ->groupBy('month')
             ->get();
         // looping number 1-12 then mapping $checksheet_so to month if not exist return 0 value
-        $checksheet_tso = collect(range(0, 11))->map(function ($month) use ($checksheet_tso) {
+        $checksheet_tso = collect(range(1, 12))->map(function ($month) use ($checksheet_tso) {
             $total = $checksheet_tso->where('month', $month)->first();
             return $total ? $total->total : 0;
         });
