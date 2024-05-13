@@ -81,7 +81,8 @@ class ChecksheetController extends Controller
         $watermarkText = $request->date;
         $width = $image->width();
         $height = $image->height();
-        $fontSize = ($width * $height) / 10500;
+        // dd($width, $height);
+        $fontSize = $width * $height * 0.00012987013;
         // dd($width, $height, $fontSize);
         $margin = 25; // Margin from the edges
         $positionX = $width - strlen($watermarkText) - $margin;
