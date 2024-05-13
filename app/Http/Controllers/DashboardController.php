@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Checksheet;
 use App\Models\Kereta;
 use App\Models\Sparepart;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,7 +15,7 @@ class DashboardController extends Controller
     {
         $active = 'dashboard';
         $keretas = Kereta::count();
-        $spareparts = Sparepart::count();
+        $users = User::count();
         //checksheet where this month date_time and this year date_time
         $checksheet = Checksheet::whereMonth('date_time', date('m'))->whereYear('date_time', date('Y'))->count();
 
@@ -53,6 +54,6 @@ class DashboardController extends Controller
 
         $checksheet_m = [$checksheet_so_m, $checksheet_tso_m];
 
-        return view('dashboard.index', compact('active', 'keretas', 'spareparts', 'checksheet', 'checksheet_so', 'checksheet_tso', 'checksheet_m'));
+        return view('dashboard.index', compact('active', 'keretas', 'users', 'checksheet', 'checksheet_so', 'checksheet_tso', 'checksheet_m'));
     }
 }
