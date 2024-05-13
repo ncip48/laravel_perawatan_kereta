@@ -46,11 +46,19 @@
                                 <table id="datatable1" class="display" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Nama Kereta</th>
-                                            <th>Kategori Checksheet</th>
-                                            <th>Uraian Pekerjaan</th>
-                                            <th>Aksi</th>
+                                            <th rowspan="2">No</th>
+                                            <th rowspan="2">Nama Kereta</th>
+                                            <th rowspan="2">Kategori Checksheet</th>
+                                            <th rowspan="2">Uraian Pekerjaan</th>
+                                            <th colspan="5" class="text-center">Tipe Perawatan</th>
+                                            <th rowspan="2">Aksi</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Harian</th>
+                                            <th>P1</th>
+                                            <th>P3</th>
+                                            <th>P6</th>
+                                            <th>P12</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,6 +68,31 @@
                                                 <td>{{ $item->nama_kereta }}</td>
                                                 <td>{{ $item->nama }}</td>
                                                 <td>{{ $item->nama_item }}</td>
+                                                <td>
+                                                    @if ($item->harian)
+                                                        <i class="material-icons text-dark">check</i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($item->p1)
+                                                        <i class="material-icons text-dark">check</i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($item->p3)
+                                                        <i class="material-icons text-dark">check</i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($item->p6)
+                                                        <i class="material-icons text-dark">check</i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($item->p12)
+                                                        <i class="material-icons text-dark">check</i>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <a href="{{ route('item_checksheet.edit', $item) }}"
                                                         class="btn btn-sm btn-warning mb-1">

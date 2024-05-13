@@ -86,10 +86,23 @@ class ChecksheetController extends Controller
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->where('checksheet.id', $id)
             ->first();
-
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
-            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta)->get();
+            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta);
+            if ($detail->tipe == 0) {
+                $items = $items->where('harian', "1");
+            } else {
+                if ($detail->p == "P1") {
+                    $items = $items->where('p1', "1");
+                } else if ($detail->p == "P3") {
+                    $items = $items->where('p3', "1");
+                } else if ($detail->p == "P6") {
+                    $items = $items->where('p6', "1");
+                } else if ($detail->p == "P12") {
+                    $items = $items->where('p12', "1");
+                }
+            }
+            $items = $items->get();
             $item->lists = $items->map(function ($item) use ($id) {
                 $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->first();
                 $item->dilakukan = $detail->dilakukan ?? null;
@@ -174,7 +187,21 @@ class ChecksheetController extends Controller
 
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
-            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta)->get();
+            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta);
+            if ($detail->tipe == 0) {
+                $items = $items->where('harian', "1");
+            } else {
+                if ($detail->p == "P1") {
+                    $items = $items->where('p1', "1");
+                } else if ($detail->p == "P3") {
+                    $items = $items->where('p3', "1");
+                } else if ($detail->p == "P6") {
+                    $items = $items->where('p6', "1");
+                } else if ($detail->p == "P12") {
+                    $items = $items->where('p12', "1");
+                }
+            }
+            $items = $items->get();
             $item->lists = $items->map(function ($item) use ($id) {
                 $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->first();
                 $item->dilakukan = $detail->dilakukan ?? null;

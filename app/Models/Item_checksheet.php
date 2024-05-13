@@ -12,6 +12,11 @@ class Item_checksheet extends Model
     protected $fillable = [
         'id_kategori_checksheet',
         'nama_item',
-        'id_kereta'
+        'id_kereta',
+        'harian',
+        'p1',
+        'p3',
+        'p6',
+        'p12'
     ];
 }
