@@ -19,8 +19,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-content">
-                                    <form method="POST" action="{{ route('item_checksheet.update', $items->id) }}" autocomplete="off"
-                                        id="form-edit-pekerjaan">
+                                    <form method="POST" action="{{ route('item_checksheet.update', $items->id) }}"
+                                        autocomplete="off" id="form-edit-pekerjaan">
                                         {{-- create input with csrf token and bootstrap class --}}
                                         @csrf
                                         @method('put')
@@ -37,7 +37,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="id_kategori_checksheet">Kelompok Pekerjaan</label>
-                                            <select name="id_kategori_checksheet" id="id_kategori_checksheet" class="form-select">
+                                            <select name="id_kategori_checksheet" id="id_kategori_checksheet"
+                                                class="form-select">
                                                 @foreach ($kategories as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                                 @endforeach
@@ -48,9 +49,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="nama_item">Uraian Pekerjaan</label>
-                                            <input type="text" id="nama_item" class="form-control"
-                                               name="nama_item" value="{{ $items->nama_item }}">
-                                            @error('nama_item') 
+                                            <input type="text" id="nama_item" class="form-control" name="nama_item"
+                                                value="{{ $items->nama_item }}">
+                                            @error('nama_item')
                                                 {{-- <span class="text-danger">{{ $message }}</span> --}}
                                             @enderror
                                         </div>
@@ -58,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="card-footer py-0 border-top-0 pb-4">
-                                <button type="submit" class="btn btn-primary" form="form-tambah-kereta"><i
+                                <button type="submit" class="btn btn-primary" form="form-edit-pekerjaan"><i
                                         class="bi bi-save me-2"></i>
                                     Simpan</button>
                                 <a href="{{ route('item_checksheet.index') }}" class="btn btn-danger ms-2"><i

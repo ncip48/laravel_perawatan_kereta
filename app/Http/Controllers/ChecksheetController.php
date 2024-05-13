@@ -8,6 +8,7 @@ use App\Models\Foto;
 use App\Models\Item_checksheet;
 use App\Models\Kategori_checksheet;
 use App\Models\Kereta;
+use App\Models\User;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -36,7 +37,7 @@ class ChecksheetController extends Controller
             // ->where('checksheet.id', '=', 'detail_checksheet.id_checksheet')
             ->get();
         $keretas = Kereta::all();
-// dump($checksheets);
+        // dump($checksheets);
         return view('master_checksheet.checksheet.index', compact('active', 'checksheets', 'keretas', 'detail'));
     }
 
@@ -85,10 +86,23 @@ class ChecksheetController extends Controller
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->where('checksheet.id', $id)
             ->first();
-
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
-            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta)->get();
+            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta);
+            if ($detail->tipe == 0) {
+                $items = $items->where('harian', "1");
+            } else {
+                if ($detail->p == "P1") {
+                    $items = $items->where('p1', "1");
+                } else if ($detail->p == "P3") {
+                    $items = $items->where('p3', "1");
+                } else if ($detail->p == "P6") {
+                    $items = $items->where('p6', "1");
+                } else if ($detail->p == "P12") {
+                    $items = $items->where('p12', "1");
+                }
+            }
+            $items = $items->get();
             $item->lists = $items->map(function ($item) use ($id) {
                 $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->first();
                 $item->dilakukan = $detail->dilakukan ?? null;
@@ -163,23 +177,31 @@ class ChecksheetController extends Controller
         setlocale(LC_TIME, 'id_ID.utf8');
         Carbon::setLocale('id');
 
-        $photo = Foto::select('foto.*', 'detail_checksheet.*', 'item_checksheet.*', 'checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime')
-            ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
-            ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
-            ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
-            ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
-            ->get();
-
         $detail = Checksheet::select('checksheet.*', 'master_kereta.nama_kereta')
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->where('checksheet.id', $id)
             ->first();
         $detail->tanggal = Carbon::parse($detail->date_time)->isoFormat('dddd, D MMMM Y');
         $detail->jam = Carbon::parse($detail->date_time)->isoFormat('HH:mm');
+        $detail->teknisi = User::where('id', $detail->id_user)->first();
 
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
-            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta)->get();
+            $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $detail->id_kereta);
+            if ($detail->tipe == 0) {
+                $items = $items->where('harian', "1");
+            } else {
+                if ($detail->p == "P1") {
+                    $items = $items->where('p1', "1");
+                } else if ($detail->p == "P3") {
+                    $items = $items->where('p3', "1");
+                } else if ($detail->p == "P6") {
+                    $items = $items->where('p6', "1");
+                } else if ($detail->p == "P12") {
+                    $items = $items->where('p12', "1");
+                }
+            }
+            $items = $items->get();
             $item->lists = $items->map(function ($item) use ($id) {
                 $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->first();
                 $item->dilakukan = $detail->dilakukan ?? null;
@@ -190,23 +212,13 @@ class ChecksheetController extends Controller
             return $item;
         });
 
+        // return view('master_checksheet.checksheet.print', compact('detail', 'categories'));
 
-        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'photo'));
+
+        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories'));
         $pdf->setPaper('A4', 'potrait');
         $title = 'Checksheet'. $detail->nama_kereta. ' - ' . $detail->tanggal;
         return $pdf->stream($title . '.pdf');
-        // $pdf2 = Pdf::loadview('master_checksheet.checksheet.print2', compact('detail', 'categories', 'photo'));
-        // $pdf2->setPaper('A4', 'potrait');
-        // //join pdf 1 dan 2
-        // $merger = new Merger;
-        // $merger->addRaw($pdf->output());
-        // $merger->addRaw($pdf2->output());
-        // $pdf_final = $merger->merge();
-
-        // $title = $detail->nama_kereta;
-        // return response($pdf_final)
-        //     ->header('Content-Type', 'application/pdf')
-        //     ->header('Content-Disposition', "inline;filename='$title.pdf'");
     }
 
     public function filter($id)
@@ -217,5 +229,73 @@ class ChecksheetController extends Controller
         $keretas = Kereta::all();
         $active = 'master_checksheet';
         return view('master_checksheet.checksheet.index', compact('checksheets', 'keretas', 'active'));
+    }
+
+    public function report_so()
+    {
+        $detail = Checksheet::all();
+        //groupBy date_time checksheet by month
+        $detail = $detail->map(function ($item) {
+            $item->bulan = Carbon::parse($item->date_time)->translatedFormat('F Y');
+            return $item;
+        });
+        //group by but return array example [{month:1,year:2021},{month:2,year:2021}]
+        $detail = $detail->groupBy('bulan')->map(function ($item) {
+            return [
+                'month' => Carbon::parse($item[0]->date_time)->month,
+                'year' => Carbon::parse($item[0]->date_time)->year,
+                'nama_bulan' => $item[0]->bulan,
+            ];
+        });
+        //remove keys
+        $detail = array_values($detail->toArray());
+        //change to stdClass
+        $detail = json_decode(json_encode($detail));
+        $keretas = Kereta::all();
+        $active = 'so';
+        return view('so.index', compact('active', 'detail', 'keretas'));
+    }
+
+    public function print_report_so(Request $request)
+    {
+        //get bulan & tahun in query params
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+        $detail = Kereta::find(1);
+        $detail->checksheet = Checksheet::whereMonth('date_time', $bulan)
+            ->whereYear('date_time', $tahun)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $detail->checksheet = $detail->checksheet->map(function ($item) {
+            $item->tanggal = Carbon::parse($item->date_time)->translatedFormat('d F Y');
+
+            return $item;
+        });
+
+        $bulan = strtoupper(Carbon::parse($detail->checksheet[0]->datetime)->translatedFormat('F'));
+        $tahun = strtoupper(Carbon::parse($detail->checksheet[0]->datetime)->year);
+
+        $active = 'Foto';
+        // return view('so.print', compact('active', 'detail', 'bulan', 'tahun'));
+
+        $availability_so = $detail->checksheet->where('is_so', "1")->count();
+        $availability_tso = $detail->checksheet->where('is_so', "0")->count();
+
+        $availability_so_p = ($availability_so / $detail->checksheet->count()) * 100;
+        $availability_tso_p = ($availability_tso / $detail->checksheet->count()) * 100;
+
+        $availability = [
+            'so' => $availability_so,
+            'tso' => $availability_tso,
+            'so_p' => round($availability_so_p),
+            'tso_p' => round($availability_tso_p),
+        ];
+
+        // dd($availability);
+
+        $pdf = Pdf::loadView('so.print', compact('active', 'detail', 'bulan', 'tahun', 'availability'));
+        $pdf->setPaper('A4', 'potrait');
+        return $pdf->stream('foto.pdf');
     }
 }

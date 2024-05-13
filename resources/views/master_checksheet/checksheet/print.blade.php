@@ -13,7 +13,7 @@
             margin-left: 1.5cm;
         }
 
-        @page{
+        @page {
             margin-top: 0.2cm;
             margin-bottom: 0.3cm;
             margin-left: 1.5cm;
@@ -148,17 +148,17 @@
             <img src="https://booking.kai.id/img/logo-kai-new.png"
                 alt="Logo KAI" style="height: 40px; margin-top:2em;">
             {{-- <img src="{{ asset('templates/source/assets/images/inka-border.png') }}"
-                alt="Logo KAI" style="height: 50px;"> --}}
+            alt="Logo KAI" style="height: 50px;"> --}}
             {{-- <img src="{{ asset('templates/source/assets/images/logo_inka.png') }}"
-                alt="Logo PT INKA" style="height: 50px; margin-top: 1rem; margin-left: 18em;"> --}}
+            alt="Logo PT INKA" style="height: 50px; margin-top: 1rem; margin-left: 18em;"> --}}
             {{-- <img src="{{ asset('templates/source/assets/images/inka-border.png') }}" alt="Logo PT IMSS"
-                style="height: 40px; margin-bottom: 1rem;"> --}}
+            style="height: 40px; margin-bottom: 1rem;"> --}}
             <img src="https://imsservice.co.id/assets/inka-border.png" alt="Logo PT IMSS"
                 style="height: 40px; margin-left: 30em;">
         </div>
 
         <h3 class="text"> SHEET PERAWATAN {{ $detail->nama_kereta }} <BR> PEMERIKSAAN
-            {{ $detail->tipe == '0' ? 'HARIAN' : 'BULANAN' }}
+            {{ $detail->tipe == '0' ? 'HARIAN' : "BULANAN ($detail->p)" }}
         </h3>
 
         <div class="header-table">
@@ -239,7 +239,17 @@
             @endforeach
         </table>
 
-        <h4 class="mt-4">Setelah dilakukan pemeriksaan dinyatakan kereta : SO/TSO</h4>
+        <h4 class="mt-4">Setelah dilakukan pemeriksaan dinyatakan kereta :
+            @if (isset($detail->is_so))
+                @if ($detail->is_so == 1)
+                    SO
+                @elseif($detail->is_so == 0)
+                    TSO
+                @endif
+            @else
+                SO/TSO
+            @endif
+        </h4>
 
         <table style="margin-top: 5rem;">
             <tr style="text-align: center;">
@@ -254,21 +264,24 @@
                 {{-- <td>PT Inka Multi Solusi service</td> --}}
                 <td>PT Inka Multi Solusi service</td>
             </tr>
-            <tr>
+            <tr style="text-align: center;">
                 <td style="height: 75px"></td>
                 <td style="height: 75px"></td>
-                <td style="height: 75px"></td>
-                <td style="height: 75px"></td>
+                <td style="">
+                    @php $sign_teknisi = $detail->teknisi->nip . '|' . $detail->teknisi->name @endphp
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_teknisi)) !!} ">
+                </td>
             </tr>
             <tr style="text-align: center;">
                 <td><span class="underline">SUHANA SENJAYA</span></td>
                 <td><span class="underline">TRI WIYONO</span></td>
                 {{-- <td><span class="underline">____________</span> </td> --}}
-                <td><span class="underline">____________</span></td>
+                <td><span class="underline">{{ $detail->teknisi->name }}</span></td>
             </tr>
             <tr>
-                <td style="vertical-align: top;text-align: center">NIPP. 44733</td>
-                <td style="vertical-align: top;text-align: center"> NIPP. 41493</td>
+                <td style="vertical-align: top;text-align: center">NIP. 44733</td>
+                <td style="vertical-align: top;text-align: center"> NIP. 41493</td>
+                <td style="vertical-align: top;text-align: center"> NIP. {{ $detail->teknisi->nip }}</td>
             </tr>
         </table>
     </div>

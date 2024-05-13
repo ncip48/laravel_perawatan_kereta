@@ -43,6 +43,15 @@ class AuthController extends Controller
         $user = User::where('nip', $request->nip)->first();
         if ($user) {
             if (password_verify($request->password, $user->password)) {
+                //begal user selain teknisi
+                if ($user->role != 3) {
+                    $response = [
+                        'validation' => false,
+                        'message' => "Tidak diijinkan masuk",
+                    ];
+                    return ResponseController::customResponse(false, 'Login gagal',  $response);
+                }
+
                 $token = $user->createToken('auth_token')->plainTextToken;
                 $user->train = Kereta::where('id', $user->id_kereta)->first();
                 $response = [

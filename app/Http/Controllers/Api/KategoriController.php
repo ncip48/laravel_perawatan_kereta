@@ -32,13 +32,9 @@ class KategoriController extends Controller
     {
         $type = $request->type;
         $authuser = auth()->user();
-        if ($type == 0) {
-            $data = Checksheet::where('id_kereta', $authuser->id_kereta)->whereDate('date_time', Carbon::today()->setTimezone('Asia/Jakarta'))->where('tipe', $type);
-        } else {
-            //get by this mont and type == 1
-            $data = Checksheet::where('id_kereta', $authuser->id_kereta)->whereMonth('date_time', Carbon::now()->setTimezone('Asia/Jakarta')->month)->where('tipe', $type);
-        }
         $result = [];
+        // if ($type == 0) {
+        $data = Checksheet::where('id_kereta', $authuser->id_kereta)->whereDate('date_time', Carbon::today()->setTimezone('Asia/Jakarta'))->where('tipe', $type);
         if ($data->count() == 0) {
             $result = [
                 'found' => false,
@@ -50,6 +46,12 @@ class KategoriController extends Controller
                 'data' => $data->first()
             ];
         }
+        // } else {
+        //     $result = [
+        //         'found' => false,
+        //         'data' => null,
+        //     ];
+        // }
         return ResponseController::customResponse(true, 'Berhasil mendapakan checksheet!', $result);
     }
 
@@ -92,7 +94,7 @@ class KategoriController extends Controller
         }
 
         $data = Checksheet::create([
-            'id_kereta' => 1, //URGENT
+            'id_kereta' => $authuser->id_kereta, //URGENT
             'id_user' => $authuser->id,
             'date_time' => Carbon::now()->setTimezone('Asia/Jakarta'),
             'no_kereta' => $request->no_kereta,
@@ -124,6 +126,48 @@ class KategoriController extends Controller
     {
         $authuser = auth()->user();
         $categories = Item_checksheet::where('id_kereta', $authuser->id_kereta)->where('id_kategori_checksheet', $id)->get();
+        $categories = $categories->map(function ($item) use ($id_checksheet) {
+            $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id_checksheet)->first();
+            $item->dilakukan = $detail->dilakukan ?? null;
+            $item->hasil = $detail->hasil ?? null;
+            $item->keterangan = $detail->keterangan ?? null;
+            if ($detail) {
+                $item->foto = Foto::where('id_detail', $detail->id)->get();
+                $item->foto = $item->foto->map(function ($item) {
+                    $item->foto = asset('foto/' . $item->foto);
+                    return $item;
+                });
+            } else {
+                $item->foto = [];
+            }
+            $item->id_detail_checksheet = $detail->id ?? null;
+            return $item;
+        });
+        return ResponseController::customResponse(true, 'Berhasil mendapakan item checklist!', $categories);
+    }
+
+    public function getAllListByIdv2(Request $request)
+    {
+        $id = $request->id;
+        $id_checksheet = $request->id_checksheet;
+        $tipe = $request->tipe;
+        $periode = $request->periode;
+        $authuser = auth()->user();
+        $categories = Item_checksheet::where('id_kereta', $authuser->id_kereta)->where('id_kategori_checksheet', $id);
+        if ($tipe == 0) {
+            $categories = $categories->where('harian', "1");
+        } else {
+            if ($periode == "P1") {
+                $categories = $categories->where('p1', "1");
+            } else if ($periode == "P3") {
+                $categories = $categories->where('p3', "1");
+            } else if ($periode == "P6") {
+                $categories = $categories->where('p6', "1");
+            } else if ($periode == "P12") {
+                $categories = $categories->where('p12', "1");
+            }
+        }
+        $categories = $categories->get();
         $categories = $categories->map(function ($item) use ($id_checksheet) {
             $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id_checksheet)->first();
             $item->dilakukan = $detail->dilakukan ?? null;

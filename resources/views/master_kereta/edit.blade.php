@@ -12,14 +12,15 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-content">
-                                    <form method="POST" action="{{ route('kereta.update', $keretas->id) }}" autocomplete="off"
-                                        id="form-edit-kereta" enctype="multipart/form-data">
+                                    <form method="POST" action="{{ route('kereta.update', $keretas->id) }}"
+                                        autocomplete="off" id="form-edit-kereta" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group">
                                             <label for="nama_kereta">Nama Kereta</label>
                                             <input type="text" id="nama_kereta" class="form-control"
-                                                placeholder="Masukkan nama kereta" name="nama_kereta" value="{{ $keretas->nama_kereta }}">
+                                                placeholder="Masukkan nama kereta" name="nama_kereta"
+                                                value="{{ $keretas->nama_kereta }}">
                                             @error('nama_kereta')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -28,31 +29,24 @@
                                             <label for="nomor_kereta" class="col-sm-2 col-form-label">Nomor Kereta</label>
                                             <div class="row">
                                                 <div class="col-sm-10">
-                                                    @foreach ($keretas->nomor_kereta as $nomor)
-                                                        <input type="text" class="form-control mb-2" placeholder="Masukkan Nomor Kereta"
-                                                            name="nomor_kereta[]" value="{{$nomor}}">
-                                                            <div class="col-sm-2">
-                                                    <a class="btn btn-danger" id="hapus-nomor-kereta"
-                                                        onclick="hapusNomorKereta()" href="{{ route('kereta.hapusnomor', $keretas->id) }}">
-                                                        <i class="material-icons">delete</i> Hapus
-                                                    </a>
-                                                </div>
-                                                    @endforeach
-                                                    @error('nomor_kereta')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-sm-10">
-                                                    <input type="text" id="nomor_kereta" class="form-control "
+                                                    {{-- <input type="text" id="nomor_kereta" class="form-control "
                                                         placeholder="Masukkan Nomor Kereta " name="nomor_kereta[]" multiple>
                                                     @error('nomor_kereta')
                                                         <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @enderror --}}
+                                                    <div id="nomor_lain">
+                                                        @foreach ($keretas->nomor_kereta as $key => $nomor)
+                                                            <div class="mt-2 d-flex align-items-center" id="opsi-nomor"
+                                                                data-index="{{ $key }}">
+                                                                <input type="text" class="form-control"
+                                                                    id="nomor_kereta_add" name="nomor_kereta[]" multiple
+                                                                    value="{{ $nomor }}">
+                                                                <a class="btn btn-danger m-1"
+                                                                    id="hapus-nomor-{{ $key }}"><i
+                                                                        class="material-icons">delete</i></a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <a class="btn btn-primary" id="tambah-nomor-kereta"
@@ -77,30 +71,47 @@
                     </div>
                 </div>
             </div>
-                </div>
         </div>
     </div>
     </div>
     </div>
     </div>
     </div>
-    <script>
-        function tambahNomorKereta() {
-            $('#nomor_kereta').after(
-                '<div class="mt-2 d-flex align-items-center" id="opsi-nomor">' +
-                '<input type="text" class="form-control" id="nomor_kereta_add" name="nomor_kereta[]" multiple>' +
-                '<a class="btn btn-danger m-1" id="hapus-nomor" onclick="hapusNomor()"><i class="material-icons">delete</i></a>' +
-                '</div>');
-        }
+    </div>
+    @push('scripts')
+        <script>
+            function tambahNomorKereta() {
+                const count = $('#nomor_lain #opsi-nomor').length
+                $('#nomor_lain').append(
+                    '<div class="mt-2 d-flex align-items-center" id="opsi-nomor" data-index="' + count + '"">' +
+                    '<input type="text" class="form-control" id="nomor_kereta_add" name="nomor_kereta[]" multiple>' +
+                    '<a class="btn btn-danger m-1" id="hapus-nomor-' + count +
+                    '"><i class="material-icons">delete</i></a>' +
+                    '</div>');
+            }
 
-        function hapusNomor(){
-            $('#nomor_kereta_add').remove();
-            $('#hapus-nomor').remove();
-        }
-        
-        function hapusNomorKereta() {
-            $('#opsi-nomor').remove();
-        }
-    </script>
+            function hapusNomor() {
+                $('#nomor_kereta_add').remove();
+                $('#hapus-nomor').remove();
+            }
+
+            function hapusNomorKereta() {
+                $('#opsi-nomor').remove();
+            }
+
+            $(document).on('click', '[id^=hapus-nomor-]', function() {
+                // Find the closest parent with class 'opsi-nomor'
+                var parentOpsiNomor = $(this).closest('#opsi-nomor');
+
+                // Get the value of data-index attribute
+                var dataIndex = parentOpsiNomor.attr('data-index');
+
+                // Remove the parent element
+                parentOpsiNomor.remove();
+
+                // Now you can use the dataIndex as needed
+                console.log('Removed element with data-index:', dataIndex);
+            });
+        </script>
+    @endpush
 @endsection
-

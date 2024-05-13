@@ -25,6 +25,12 @@ class AuthController extends Controller
         ]);
 
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            $user = User::where('email', $input['email'])->first();
+            //cek login jika teknisi maka tolak
+            if ($user->role == 3) {
+                return redirect()->route('login')
+                    ->with('error', 'Tidak diijinkan masuk.');
+            }
             return redirect()->route('dashboard.index');
         } else {
             return redirect()->route('login')

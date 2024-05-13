@@ -59,16 +59,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('kategori_checksheet/filter/{id}', [KategoriChecksheetController::class, 'filter'])->name('kategori_checksheet.filter');
     Route::get('item_checksheet/filter/{id}', [ItemChecksheetController::class, 'filter'])->name('item_checksheet.filter');
     Route::get('checksheet/filter/{id}', [ChecksheetController::class, 'filter'])->name('checksheet.filter');
-    
+
     //master_user
     Route::resource('user', UserController::class);
 
     //Foto
     Route::resource('photo', FotoController::class);
+
+    //SO
+    Route::get('so', [ChecksheetController::class, 'report_so']);
+    Route::get('so/print', [ChecksheetController::class, 'print_report_so'])->name('so.print');
 });
 
 // cetak checksheet
 Route::get('checksheet/print/{id}', [ChecksheetController::class, 'print'])->name('checksheet.print');
+Route::get('checksheet/approve/{id}', [ChecksheetController::class, 'print'])->name('checksheet.approve');
 
 Route::get('print', [FotoController::class, 'print'])->name('photo.print');
 Route::get('download', [FotoController::class, 'download'])->name('photo.download');

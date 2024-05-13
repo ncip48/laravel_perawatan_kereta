@@ -25,7 +25,7 @@
                                         <div class="form-group">
                                             <label for="role">Role</label>
                                             <select name="role" id="role" class="form-select">
-                                                <option>Pilih Role</option>
+                                                <option value="">Pilih Role</option>
                                                 <option value="0">Admin</option>
                                                 <option value="1">Assman UPT DEPO</option>
                                                 <option value="2">SPV Ruas Luar</option>
@@ -38,7 +38,7 @@
                                         <div class="form-group">
                                             <label for="id_kereta">Nama Kereta</label>
                                             <select name="id_kereta" id="id_kereta" class="form-select">
-                                                <option value="0">Pilih Kereta</option>
+                                                <option value="">Pilih Kereta</option>
                                                 @foreach ($keretas as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama_kereta }}</option>
                                                 @endforeach
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="text" id="password" class="form-control"
+                                            <input type="password" id="password" class="form-control"
                                                 placeholder="Masukkan password Karyawan" name="password">
                                             @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -86,7 +86,7 @@
                                 <button type="submit" class="btn btn-primary" form="form-tambah-user"><i
                                         class="bi bi-save me-2"></i>
                                     Simpan</button>
-                                <a href="{{route('user.index')}}" class="btn btn-danger ms-2"><i
+                                <a href="{{ route('user.index') }}" class="btn btn-danger ms-2"><i
                                         class="bi bi-x-circle me-2"></i>
                                     Batal</a>
                             </div>
@@ -94,12 +94,12 @@
                     </div>
                 </div>
             </div>
-            
+
             @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
         </div>
     </div>
     </div>

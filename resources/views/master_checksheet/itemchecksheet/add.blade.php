@@ -37,7 +37,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="id_kategori_checksheet">Kelompok Pekerjaan</label>
-                                            <select name="id_kategori_checksheet" id="id_kategori_checksheet" class="form-select">
+                                            <select name="id_kategori_checksheet" id="id_kategori_checksheet"
+                                                class="form-select">
                                                 <option value="0">Pilih Kelompok Pekerjaan</option>
                                                 @foreach ($kategories as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -59,10 +60,10 @@
                                 </div>
                             </div>
                             <div class="card-footer py-0 border-top-0 pb-4">
-                                <button type="submit" class="btn btn-primary" form="form-tambah-kereta"><i
+                                <button type="submit" class="btn btn-primary" form="form-tambah-pekerjaan"><i
                                         class="bi bi-save me-2"></i>
                                     Simpan</button>
-                                <a href="{{route('item_checksheet.index')}}" class="btn btn-danger ms-2"><i
+                                <a href="{{ route('item_checksheet.index') }}" class="btn btn-danger ms-2"><i
                                         class="bi bi-x-circle me-2"></i>
                                     Batal</a>
                             </div>

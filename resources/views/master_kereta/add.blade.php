@@ -40,6 +40,8 @@
                                                     @error('nomor_kereta')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
+                                                    <div id="nomor_lain">
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <a class="btn btn-primary" id="tambah-nomor-kereta"
@@ -92,18 +94,40 @@
         </div>
     </div>
     </div>
-    <script>
-        function tambahNomorKereta() {
-            $('#nomor_kereta').after(
-                '<div class="mt-2 d-flex align-items-center" id="opsi-nomor">' +
-                '<input type="text" class="form-control" id="nomor_kereta_add" name="nomor_kereta[]" multiple>' +
-                '<a class="btn btn-danger m-1" id="hapus-nomor" onclick="hapusNomor()"><i class="material-icons">delete</i></a>' +
-                '</div>');
-        }
+    @push('scripts')
+        <script>
+            function tambahNomorKereta() {
+                const count = $('#nomor_lain #opsi-nomor').length
+                $('#nomor_lain').append(
+                    '<div class="mt-2 d-flex align-items-center" id="opsi-nomor" data-index="' + count + '"">' +
+                    '<input type="text" class="form-control" id="nomor_kereta_add" name="nomor_kereta[]" multiple>' +
+                    '<a class="btn btn-danger m-1" id="hapus-nomor-' + count +
+                    '"><i class="material-icons">delete</i></a>' +
+                    '</div>');
+            }
 
-        function hapusNomor(){
-            $('#nomor_kereta_add').remove();
-            $('#hapus-nomor').remove();
-        }
-    </script>
+            function hapusNomor() {
+                $('#nomor_kereta_add').remove();
+                $('#hapus-nomor').remove();
+            }
+
+            function hapusNomorKereta() {
+                $('#opsi-nomor').remove();
+            }
+
+            $(document).on('click', '[id^=hapus-nomor-]', function() {
+                // Find the closest parent with class 'opsi-nomor'
+                var parentOpsiNomor = $(this).closest('#opsi-nomor');
+
+                // Get the value of data-index attribute
+                var dataIndex = parentOpsiNomor.attr('data-index');
+
+                // Remove the parent element
+                parentOpsiNomor.remove();
+
+                // Now you can use the dataIndex as needed
+                console.log('Removed element with data-index:', dataIndex);
+            });
+        </script>
+    @endpush
 @endsection
