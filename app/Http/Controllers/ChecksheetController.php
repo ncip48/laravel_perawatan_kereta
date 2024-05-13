@@ -193,7 +193,7 @@ class ChecksheetController extends Controller
 
         $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'photo'));
         $pdf->setPaper('A4', 'potrait');
-        $title = $detail->nama_kereta;
+        $title = 'Checksheet'. $detail->nama_kereta. ' - ' . $detail->tanggal;
         return $pdf->stream($title . '.pdf');
         // $pdf2 = Pdf::loadview('master_checksheet.checksheet.print2', compact('detail', 'categories', 'photo'));
         // $pdf2->setPaper('A4', 'potrait');

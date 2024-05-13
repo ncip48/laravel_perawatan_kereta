@@ -87,7 +87,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd('update');
+        dd($request->all());
         $request->validate([
             'nip' => 'required',
             'name' => 'required',
