@@ -82,7 +82,10 @@ class ChecksheetController extends Controller
         $width = $image->width();
         $height = $image->height();
         // dd($width, $height);
-        $fontSize = $width * $height * 0.00012987013;
+        //get the aspect ratio from width and height
+        $aspectRatio = $width / $height;
+        //calculate font size based on aspect ratio
+        $fontSize = $aspectRatio * 20;
         // dd($width, $height, $fontSize);
         $margin = 25; // Margin from the edges
         $positionX = $width - strlen($watermarkText) - $margin;
