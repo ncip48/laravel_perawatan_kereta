@@ -77,6 +77,8 @@ class ChecksheetController extends Controller
         // read image from file system
         $absolute_path = public_path('foto/' . $filename);
         $image = ImageManager::gd()->read($absolute_path);
+        //change size to width="340px" height="265px"
+        $image->resize(340, 265);
 
         $watermarkText = $request->date;
         $width = $image->width();
@@ -85,15 +87,15 @@ class ChecksheetController extends Controller
         //get the aspect ratio from width and height
         $aspectRatio = $width / $height;
         //calculate font size based on aspect ratio
-        $fontSize = $aspectRatio * 20;
+        $fontSize = 15;
         // dd($width, $height, $fontSize);
-        $margin = 25; // Margin from the edges
+        $margin = 10; // Margin from the edges
         $positionX = $width - strlen($watermarkText) - $margin;
         $positionY = $height - $margin;
 
         $watermarkText2 = $request->location;
         $positionX2 = $width - strlen($watermarkText) - $margin;
-        $positionY2 = $height - ($margin * 2);
+        $positionY2 = $height - ($margin * 2) - 5;
 
         $mark = $timestamp . '_mark.' . $extension;
 
