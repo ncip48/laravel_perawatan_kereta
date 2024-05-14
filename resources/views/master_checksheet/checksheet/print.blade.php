@@ -31,7 +31,7 @@
         .kelas th,
         .kelas td {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 2px;
             text-align: left;
         }
 
@@ -61,7 +61,7 @@
         }
 
         .icon {
-            width: 28px;
+            width: 24px;
         }
 
         /* .page-break {
@@ -188,10 +188,10 @@
                     <th style="text-align: center;" rowspan="2">Keterangan</th>
                 </tr>
                 <tr>
-                    <th>YA</th>
-                    <th>TIDAK</th>
-                    <th>BAIK</th>
-                    <th>TIDAK</th>
+                    <th style="text-align: center;">YA</th>
+                    <th style="text-align: center;">TIDAK</th>
+                    <th style="text-align: center;">BAIK</th>
+                    <th style="text-align: center;">TIDAK</th>
                 </tr>
             </thead>
             @foreach ($categories as $category)
@@ -202,7 +202,7 @@
                     </tr>
                     @forelse ($category->lists as $list)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td style="text-align: center;">{{ $loop->iteration }}</td>
                             <td>{{ $list->nama_item }}</td>
                             <td style="text-align: center">
                                 @if ($list->dilakukan == '1')
@@ -250,8 +250,10 @@
                 SO/TSO
             @endif
         </h4>
-
-        <table style="margin-top: 5rem;">
+    </div>
+    <div>
+        {{-- <table style="margin-top: 5rem;"> --}}
+        <table>
             <tr style="text-align: center;">
                 <td>Mengetahui:</td>
                 <td>SPV RUAS LUAR</td>

@@ -101,7 +101,7 @@
                                                         <i class="material-icons">visibility</i>Lihat
                                                     </a>
                                                     <a href="{{ route('checksheet.print', $item->id) }}"
-                                                        class="btn btn-sm btn-success mb-1">
+                                                        class="btn btn-sm btn-success mb-1" target="_blank">
                                                         <i class="material-icons">print</i>Cetak
                                                     </a>
                                                     @if (auth()->user()->role == 0)
