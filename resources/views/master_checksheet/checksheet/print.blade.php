@@ -64,9 +64,9 @@
             width: 28px;
         }
 
-        .page-break {
+        /* .page-break {
             page-break-before: always;
-        }
+        } */
 
         header {
             font-size: 24px;
@@ -145,8 +145,8 @@
 <body>
     <div>
         <div class="logo-container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Logo_PT_Kereta_Api_Indonesia_%28Persero%29_2020.svg/768px-Logo_PT_Kereta_Api_Indonesia_%28Persero%29_2020.svg.png"
-                alt="Logo KAI" style="height: 40px;">
+            <img src="https://booking.kai.id/img/logo-kai-new.png"
+                alt="Logo KAI" style="height: 40px; margin-top:2em;">
             {{-- <img src="{{ asset('templates/source/assets/images/inka-border.png') }}"
             alt="Logo KAI" style="height: 50px;"> --}}
             {{-- <img src="{{ asset('templates/source/assets/images/logo_inka.png') }}"
@@ -154,7 +154,7 @@
             {{-- <img src="{{ asset('templates/source/assets/images/inka-border.png') }}" alt="Logo PT IMSS"
             style="height: 40px; margin-bottom: 1rem;"> --}}
             <img src="https://imsservice.co.id/assets/inka-border.png" alt="Logo PT IMSS"
-                style="height: 40px; margin-left: 30em; margin-bottom: 1rem;">
+                style="height: 40px; margin-left: 30em;">
         </div>
 
         <h3 class="text"> SHEET PERAWATAN {{ $detail->nama_kereta }} <BR> PEMERIKSAAN

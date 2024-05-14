@@ -55,6 +55,47 @@
                                                 {{-- <span class="text-danger">{{ $message }}</span> --}}
                                             @enderror
                                         </div>
+                                        <div class="form-group">
+                                            <label for="check_item">Periode Perawatan</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                    name="harian" id="harian" {{ $items->harian == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="harian">
+                                                    Harian
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                    name="p1" id="p1" {{ $items->p1 == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="p1">
+                                                    P1
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                    name="p3" id="p3" {{ $items->p3 == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="p3">
+                                                    P3
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                    name="p6" id="p6" {{ $items->p6 == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="p6">
+                                                    P6
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                    name="p12" id="p12" {{ $items->p12 == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="p12">
+                                                    P12
+                                                </label>
+                                            </div>
+                                            {{-- @error('check_item')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror --}}
+                                        </div>
                                     </form>
                                 </div>
                             </div>

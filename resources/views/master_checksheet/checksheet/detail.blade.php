@@ -50,7 +50,7 @@
                             <a href="{{ route('checksheet.index') }}" class="btn btn-danger"><i
                                     class="material-icons">arrow_back</i>Kembali</a>
                             {{-- <a href="#" class="btn btn-success"><i class="material-icons">print</i>Cetak Laporan</a> --}}
-                            <a href="{{ route('checksheet.print', $detail->id) }}" class="btn btn-success"><i
+                            <a href="{{ route('checksheet.print', $detail->id) }}" class="btn btn-success" target="_blank"><i
                                     class="material-icons">print</i>Cetak Laporan</a>
 
                             @foreach ($categories as $category)
