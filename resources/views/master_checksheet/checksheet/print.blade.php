@@ -265,22 +265,55 @@
                 <td>PT Inka Multi Solusi service</td>
             </tr>
             <tr style="text-align: center;">
-                <td style="height: 75px"></td>
-                <td style="height: 75px"></td>
+                <td style="height: 75px">
+                    @if (isset($detail->assman))
+                        @php $sign_assman = $detail->assman->nip . '|' . $detail->assman->name @endphp
+                        <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_assman)) !!} ">
+                    @else
+                    @endif
+                </td>
+                <td style="height: 75px">
+                    @if (isset($detail->upt))
+                        @php $sign_upt = $detail->upt->nip . '|' . $detail->upt->name @endphp
+                        <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_upt)) !!} ">
+                    @else
+                        -
+                    @endif
+                </td>
                 <td style="">
                     @php $sign_teknisi = $detail->teknisi->nip . '|' . $detail->teknisi->name @endphp
                     <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_teknisi)) !!} ">
                 </td>
             </tr>
             <tr style="text-align: center;">
-                <td><span class="underline">SUHANA SENJAYA</span></td>
-                <td><span class="underline">TRI WIYONO</span></td>
+                <td><span class="underline">
+                        @if (isset($detail->assman))
+                            {{ $detail->assman->name }}
+                        @else
+                        @endif
+                    </span></td>
+                <td><span class="underline">
+                        @if (isset($detail->upt))
+                            {{ $detail->upt->name }}
+                        @else
+                        @endif
+                    </span></td>
                 {{-- <td><span class="underline">____________</span> </td> --}}
                 <td><span class="underline">{{ $detail->teknisi->name }}</span></td>
             </tr>
             <tr>
-                <td style="vertical-align: top;text-align: center">NIP. 44733</td>
-                <td style="vertical-align: top;text-align: center"> NIP. 41493</td>
+                <td style="vertical-align: top;text-align: center">NIP. @if (isset($detail->assman))
+                        {{ $detail->assman->nip }}
+                    @else
+                        -
+                    @endif
+                </td>
+                <td style="vertical-align: top;text-align: center"> NIP. @if (isset($detail->upt))
+                        {{ $detail->upt->nip }}
+                    @else
+                        -
+                    @endif
+                </td>
                 <td style="vertical-align: top;text-align: center"> NIP. {{ $detail->teknisi->nip }}</td>
             </tr>
         </table>

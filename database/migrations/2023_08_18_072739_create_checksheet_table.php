@@ -15,14 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('id_kereta');
             $table->integer('id_user');
-            $table->integer('id_approve_assman')->nullable();
-            $table->integer('id_approve_upt')->nullable();
             $table->dateTime('date_time');
             $table->string('no_kereta');
             $table->string('tipe');
             $table->string('jam_engine');
             $table->integer('is_so')->nullable();
-            $table->integer('is_approve')->nullable();
             $table->timestamps();
         });
     }

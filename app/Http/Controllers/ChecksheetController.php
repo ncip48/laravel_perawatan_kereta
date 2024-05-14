@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use iio\libmergepdf\Merger;
+use Illuminate\Support\Facades\Auth;
 
 class ChecksheetController extends Controller
 {
@@ -29,16 +30,14 @@ class ChecksheetController extends Controller
             ->join('users', 'checksheet.id_user', '=', 'users.id')
             ->OrderBy('checksheet.created_at', 'desc')
             ->get();
-        $detail = Foto::select('foto.*', 'detail_checksheet.*', 'item_checksheet.*', 'checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime')
-            ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
-            ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
-            ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
-            ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
-            // ->where('checksheet.id', '=', 'detail_checksheet.id_checksheet')
-            ->get();
+
+        $checksheets = $checksheets->map(function ($item) {
+            $item->assman = User::find($item->id_approve_assman);
+            $item->upt = User::find($item->id_approve_spv);
+            return $item;
+        });
         $keretas = Kereta::all();
-        // dump($checksheets);
-        return view('master_checksheet.checksheet.index', compact('active', 'checksheets', 'keretas', 'detail'));
+        return view('master_checksheet.checksheet.index', compact('active', 'checksheets', 'keretas'));
     }
 
     /**
@@ -184,6 +183,8 @@ class ChecksheetController extends Controller
         $detail->tanggal = Carbon::parse($detail->date_time)->isoFormat('dddd, D MMMM Y');
         $detail->jam = Carbon::parse($detail->date_time)->isoFormat('HH:mm');
         $detail->teknisi = User::where('id', $detail->id_user)->first();
+        $detail->assman = User::where('id', $detail->id_approve_assman)->first();
+        $detail->upt = User::where('id', $detail->id_approve_spv)->first();
 
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
@@ -297,5 +298,25 @@ class ChecksheetController extends Controller
         $pdf = Pdf::loadView('so.print', compact('active', 'detail', 'bulan', 'tahun', 'availability'));
         $pdf->setPaper('A4', 'potrait');
         return $pdf->stream('foto.pdf');
+    }
+
+    public function approve(string $id)
+    {
+        $auth = Auth::user();
+
+        if ($auth->role == 1) {
+            $checksheet = Checksheet::find($id);
+            $checksheet->id_approve_assman = $auth->id;
+            $checksheet->save();
+        } elseif ($auth->role == 2) {
+            $checksheet = Checksheet::find($id);
+            $checksheet->id_approve_spv = $auth->id;
+            $checksheet->save();
+        } elseif ($auth->role == 0) {
+            $checksheet = Checksheet::find($id);
+            $checksheet->is_approve = 1;
+            $checksheet->save();
+        }
+        return redirect()->route('checksheet.index')->with('status', 'Data Checksheet berhasil diapprove!');
     }
 }

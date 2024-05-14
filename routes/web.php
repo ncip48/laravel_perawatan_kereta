@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
 
 // cetak checksheet
 Route::get('checksheet/print/{id}', [ChecksheetController::class, 'print'])->name('checksheet.print');
-Route::get('checksheet/approve/{id}', [ChecksheetController::class, 'print'])->name('checksheet.approve');
+Route::get('checksheet/approve/{id}', [ChecksheetController::class, 'approve'])->name('checksheet.approve');
 
 Route::get('print', [FotoController::class, 'print'])->name('photo.print');
 Route::get('download', [FotoController::class, 'download'])->name('photo.download');
