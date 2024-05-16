@@ -16,7 +16,8 @@
                 <div class="col-xl-4">
                     <div class="card widget widget-stats">
                         <div class="card-body">
-                            <a href="{{ route('kereta.index') }}" class="text-decoration-none">
+                            <a href="{{ auth()->user()->role == 0 ? route('kereta.index') : '#' }}"
+                                class="text-decoration-none">
                                 <div class="widget-stats-container d-flex">
                                     <div class="widget-stats-icon widget-stats-icon-primary">
                                         <i class="material-icons-outlined">train</i>
@@ -36,7 +37,8 @@
                 <div class="col-xl-4">
                     <div class="card widget widget-stats">
                         <div class="card-body">
-                            <a href="{{ route('user.index') }}" class="text-decoration-none">
+                            <a href="{{ auth()->user()->role == 0 ? route('user.index') : '#' }}"
+                                class="text-decoration-none">
                                 <div class="widget-stats-container d-flex">
                                     <div class="widget-stats-icon widget-stats-icon-warning">
                                         <i class="material-icons-outlined">people</i>
@@ -56,7 +58,8 @@
                 <div class="col-xl-4">
                     <div class="card widget widget-stats">
                         <div class="card-body">
-                            <a href="{{ route('checksheet.index') }}" class="text-decoration-none">
+                            <a href="{{ auth()->user()->role == 0 ? route('checksheet.index') : '#' }}"
+                                class="text-decoration-none">
                                 <div class="widget-stats-container d-flex">
                                     <div class="widget-stats-icon widget-stats-icon-danger">
                                         <i class="material-icons-outlined">checklist_rtl</i>

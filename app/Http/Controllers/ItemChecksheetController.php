@@ -33,7 +33,7 @@ class ItemChecksheetController extends Controller
         $active = 'master_checksheet';
         $keretas = Kereta::all();
         $kategories = Kategori_checksheet::all();
-        return view('master_checksheet.itemchecksheet.add', compact('active','keretas','kategories'));
+        return view('master_checksheet.itemchecksheet.add', compact('active', 'keretas', 'kategories'));
     }
 
     /**
@@ -74,7 +74,7 @@ class ItemChecksheetController extends Controller
         $keretas = Kereta::all();
         $kategories = Kategori_checksheet::all();
         $active = 'master_checksheet';
-        return view('master_checksheet.itemchecksheet.edit', compact('active', 'items','keretas','kategories'));
+        return view('master_checksheet.itemchecksheet.edit', compact('active', 'items', 'keretas', 'kategories'));
     }
 
     /**
@@ -98,6 +98,7 @@ class ItemChecksheetController extends Controller
                 'nama_item' => $request->nama_item,
                 'id_kereta' => $request->id_kereta,
                 'id_kategori_checksheet' => $request->id_kategori_checksheet,
+                'standar' => $request->standar,
                 'harian' => $request->harian,
                 'p1' => $request->p1,
                 'p3' => $request->p3,
@@ -121,9 +122,9 @@ class ItemChecksheetController extends Controller
     {
         // $kategories = Kategori_checksheet::where('id_kereta', $keretaId)->get();
         $items = Item_checksheet::select('item_checksheet.*', 'master_kereta.nama_kereta', 'kategori_checksheet.nama')
-        ->join('kategori_checksheet', 'item_checksheet.id_kategori_checksheet', '=', 'kategori_checksheet.id')
-        ->join('master_kereta', 'kategori_checksheet.id_kereta', '=', 'master_kereta.id')->where('kategori_checksheet.id_kereta', $id)
-        ->get();
+            ->join('kategori_checksheet', 'item_checksheet.id_kategori_checksheet', '=', 'kategori_checksheet.id')
+            ->join('master_kereta', 'kategori_checksheet.id_kereta', '=', 'master_kereta.id')->where('kategori_checksheet.id_kereta', $id)
+            ->get();
         $keretas = Kereta::all();
         $active = 'master_checksheet';
         return view('master_checksheet.itemchecksheet.index', compact('items', 'keretas', 'active'));
