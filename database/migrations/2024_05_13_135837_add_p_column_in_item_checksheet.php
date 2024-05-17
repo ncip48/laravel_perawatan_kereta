@@ -13,6 +13,7 @@ return new class extends Migration
     {
         //add p1,p3,p6,p12
         Schema::table('item_checksheet', function (Blueprint $table) {
+            $table->text('standar')->nullable();
             $table->integer('harian')->nullable();
             $table->integer('p1')->nullable();
             $table->integer('p3')->nullable();
@@ -27,6 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('item_checksheet', function (Blueprint $table) {
+            $table->dropColumn('standar');
             $table->dropColumn('harian');
             $table->dropColumn('p1');
             $table->dropColumn('p3');

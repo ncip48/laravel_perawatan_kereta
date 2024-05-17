@@ -47,9 +47,10 @@
                                     <thead>
                                         <tr>
                                             <th rowspan="2">No</th>
-                                            <th rowspan="2">Nama Kereta</th>
+                                            <th rowspan="2">Kereta</th>
                                             <th rowspan="2">Kategori Checksheet</th>
                                             <th rowspan="2">Uraian Pekerjaan</th>
+                                            <th rowspan="2">Standar</th>
                                             <th colspan="5" class="text-center">Tipe Perawatan</th>
                                             <th rowspan="2">Aksi</th>
                                         </tr>
@@ -68,6 +69,7 @@
                                                 <td>{{ $item->nama_kereta }}</td>
                                                 <td>{{ $item->nama }}</td>
                                                 <td>{{ $item->nama_item }}</td>
+                                                <td>{{ $item->standar }}</td>
                                                 <td>
                                                     @if ($item->harian)
                                                         <i class="material-icons text-dark">check</i>

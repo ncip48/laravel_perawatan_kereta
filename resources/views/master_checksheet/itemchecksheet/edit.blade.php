@@ -56,10 +56,18 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
+                                            <label for="standar">Standar</label>
+                                            <textarea type="text" id="standar" class="form-control" name="standar">{{ $items->standar }}</textarea>
+                                            @error('standar')
+                                                {{-- <span class="text-danger">{{ $message }}</span> --}}
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="check_item">Periode Perawatan</label>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="1"
-                                                    name="harian" id="harian" {{ $items->harian == 1 ? 'checked' : '' }}>
+                                                    name="harian" id="harian"
+                                                    {{ $items->harian == 1 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="harian">
                                                     Harian
                                                 </label>

@@ -13,6 +13,7 @@ class Item_checksheet extends Model
         'id_kategori_checksheet',
         'nama_item',
         'id_kereta',
+        'standar',
         'harian',
         'p1',
         'p3',
