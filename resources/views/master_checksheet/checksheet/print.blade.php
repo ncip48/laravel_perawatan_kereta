@@ -198,7 +198,7 @@
             @foreach ($categories as $category)
                 <tbody>
                     <tr>
-                        <td style="border: 1px solid #ccc; font-weight:bold;" colspan="7"> {{ $category->nama }}
+                        <td style="border: 1px solid #ccc; font-weight:bold;" colspan="8"> {{ $category->nama }}
                         </td>
                     </tr>
                     @forelse ($category->lists as $list)
@@ -234,7 +234,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" style="text-align: center">Tidak ada data</td>
+                            <td colspan="8" style="text-align: center">Tidak ada data</td>
                         </tr>
                     @endforelse
                 </tbody>

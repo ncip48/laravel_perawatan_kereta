@@ -58,7 +58,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="standar">Standar</label>
-                                            <textarea type="text" id="standar" class="form-control" name="standar">{{ $items->standar }}</textarea>
+                                            <textarea type="text" id="standar" class="form-control" name="standar" placeholder="Masukan standar pemeriksaan (opsional)"></textarea>
                                             @error('standar')
                                                 {{-- <span class="text-danger">{{ $message }}</span> --}}
                                             @enderror
