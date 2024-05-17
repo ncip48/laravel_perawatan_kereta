@@ -183,6 +183,7 @@
                 <tr>
                     <th style="text-align: center;" rowspan="2">No</th>
                     <th style="text-align: center;" rowspan="2">Uraian Pekerjaan</th>
+                    <th style="text-align: center;" rowspan="2">Standar</th>
                     <th style="text-align: center;" colspan="2">Dilakukan</th>
                     <th style="text-align: center;" colspan="2">Hasil</th>
                     <th style="text-align: center;" rowspan="2">Keterangan</th>
@@ -204,6 +205,7 @@
                         <tr>
                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                             <td>{{ $list->nama_item }}</td>
+                            <td>{{ $list->standar }}</td>
                             <td style="text-align: center">
                                 @if ($list->dilakukan == '1')
                                     <img class="icon" src="templates/source/assets/images/check-symbol.png"
