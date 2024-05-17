@@ -70,6 +70,7 @@
                                                 <td>{{ $item->nama }}</td>
                                                 <td>{{ $item->nama_item }}</td>
                                                 <td>{{ $item->standar }}</td>
+                                                {{-- <td>{!! nl2br(e($item->standar)) !!}</td> --}}
                                                 <td>
                                                     @if ($item->harian)
                                                         <i class="material-icons text-dark">check</i>
