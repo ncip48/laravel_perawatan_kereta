@@ -33,12 +33,14 @@ class KeretaController extends Controller
             // 'password' => 'required',
             'nama_kereta' => 'required',
             'nomor_kereta' => 'required',
+            'car' => 'required',
             // 'foto' => 'required',
         ], [
             // 'username.required' => 'Username tidak boleh kosong',
             // 'password.required' => 'Password tidak boleh kosong',
             'nama_kereta.required' => 'Nama kereta tidak boleh kosong',
             'nomor_kereta.required' => 'Nomor kereta tidak boleh kosong',
+            'car.required' => 'Car tidak boleh kosong',
             // 'foto.required' => 'Foto tidak boleh kosong',
         ]);
         // Kereta::create($request->all());
@@ -55,12 +57,14 @@ class KeretaController extends Controller
 
 
         $nomor_keretas = json_encode($request->nomor_kereta);
+        $car = json_encode($request->car);
         $kereta = new Kereta;
         $kereta->username = $request->username;
         $kereta->password = Hash::make($request->password);
         // $kereta->password = $request->password;
         $kereta->nama_kereta = $request->nama_kereta;
         $kereta->nomor_kereta = $nomor_keretas;
+        $kereta->car = $car;
         // $kereta->foto = $foto;
         $kereta->save();
         // dump($kereta);
@@ -90,12 +94,15 @@ class KeretaController extends Controller
         // }
 
         if (isset($keretas->nomor_kereta)) {
-            // Menghapus bracket [ ] jika ada (belum work)
-            // $keretas->nomor_kereta = str_replace(['[', ']','"'], '', $keretas->nomor_kereta);
             $keretas->nomor_kereta = json_decode($keretas->nomor_kereta);
+        } else {
+            $keretas->nomor_kereta = [];
+        }
 
-            // Jika perlu, bisa memisahkan menjadi array berdasarkan koma
-            // $keretas->nomor_kereta = explode(',', $keretas->nomor_kereta);
+        if (isset($keretas->car)) {
+            $keretas->car = json_decode($keretas->car);
+        } else {
+            $keretas->car = [];
         }
 
         $active = 'master_kereta';
@@ -110,14 +117,17 @@ class KeretaController extends Controller
         $request->validate([
             'nama_kereta' => 'required',
             'nomor_kereta' => 'required',
+            'car' => 'required',
         ], [
             'nama_kereta.required' => 'Nama kereta tidak boleh kosong',
             'nomor_kereta.required' => 'Nomor kereta tidak boleh kosong',
+            'car.required' => 'Car tidak boleh kosong',
         ]);
 
         $kereta = Kereta::find($id);
         $kereta->nama_kereta = $request->nama_kereta;
         $kereta->nomor_kereta = $request->nomor_kereta;
+        $kereta->car = $request->car;
         $kereta->save();
 
         return redirect()->route('kereta.index')->with('status', 'Data Kereta berhasil diperbarui!');

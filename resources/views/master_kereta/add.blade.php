@@ -51,6 +51,25 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="car" class="col-sm-2 col-form-label">Car</label>
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                    <input type="text" id="car" class="form-control "
+                                                        placeholder="Masukkan Car" name="car[]" multiple>
+                                                    @error('car')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                    <div id="car_lain">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <a class="btn btn-primary" id="tambah-car" onclick="tambahCar()">
+                                                        <i class="material-icons">add</i> Tambah
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         {{-- <div class="form-group">
                                             <label for="username">Username</label>
@@ -106,13 +125,14 @@
                     '</div>');
             }
 
-            function hapusNomor() {
-                $('#nomor_kereta_add').remove();
-                $('#hapus-nomor').remove();
-            }
-
-            function hapusNomorKereta() {
-                $('#opsi-nomor').remove();
+            function tambahCar() {
+                const count = $('#car_lain #opsi-car').length
+                $('#car_lain').append(
+                    '<div class="mt-2 d-flex align-items-center" id="opsi-car" data-index="' + count + '"">' +
+                    '<input type="text" class="form-control" id="car_add" name="car[]" multiple>' +
+                    '<a class="btn btn-danger m-1" id="hapus-car-' + count +
+                    '"><i class="material-icons">delete</i></a>' +
+                    '</div>');
             }
 
             $(document).on('click', '[id^=hapus-nomor-]', function() {
@@ -126,6 +146,13 @@
                 parentOpsiNomor.remove();
 
                 // Now you can use the dataIndex as needed
+                console.log('Removed element with data-index:', dataIndex);
+            });
+
+            $(document).on('click', '[id^=hapus-car-]', function() {
+                var parentOpsiCar = $(this).closest('#opsi-car');
+                var dataIndex = parentOpsiCar.attr('data-index');
+                parentOpsiCar.remove();
                 console.log('Removed element with data-index:', dataIndex);
             });
         </script>

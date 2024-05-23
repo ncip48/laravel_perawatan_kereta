@@ -33,10 +33,11 @@
                                             <th>No</th>
                                             <th>Nama Kereta</th>
                                             <th>Nomor Kereta</th>
+                                            <th>Car</th>
                                             {{-- <th>Username</th> --}}
                                             {{-- <th>Foto</th> --}}
                                             <th>Aksi</th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,27 +46,37 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->nama_kereta }}</td>
                                                 <td>
-                                                @if (!is_null($item->nomor_kereta))
-                                                    @foreach (json_decode($item->nomor_kereta) as $nomor)
-                                                        <p>{{ $nomor }}</p>
-                                                    @endforeach
-                                                @else
-                                                    <p>Tidak ada nomor kereta tersedia</p>
-                                                @endif
+                                                    @if (!is_null($item->nomor_kereta))
+                                                        @foreach (json_decode($item->nomor_kereta) as $nomor)
+                                                            <p>{{ $nomor }}</p>
+                                                        @endforeach
+                                                    @else
+                                                        <p>Tidak ada nomor kereta tersedia</p>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (!is_null($item->car))
+                                                        @foreach (json_decode($item->car) as $car)
+                                                            <p>{{ $car }}</p>
+                                                        @endforeach
+                                                    @else
+                                                        <p>Tidak ada car tersedia</p>
+                                                    @endif
                                                 </td>
                                                 {{-- <td>{{ $item->username }}</td> --}}
                                                 {{-- <td><img src="{{ asset('img/' . $item->foto) }}" alt=""
                                                         width="100px"></td> --}}
-                                                        <td>
-                                                        <a href="{{ route('kereta.edit', $item->id) }}"
+                                                <td>
+                                                    <a href="{{ route('kereta.edit', $item->id) }}"
                                                         class="btn btn-sm btn-warning mb-1">
                                                         <i class="material-icons">edit</i>Edit
                                                     </a>
-                                                            <button type="submit" class="btn btn-sm btn-danger mb-1" data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal-{{ $item->id }}">
-                                                                <i class="material-icons">delete</i>Hapus
-                                                            </button>
-                                                        </td>
+                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal-{{ $item->id }}">
+                                                        <i class="material-icons">delete</i>Hapus
+                                                    </button>
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -83,31 +94,31 @@
         </div>
     </div>
     @foreach ($keretas as $item)
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal-{{ $item->id }}" tabindex="1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Hapus Kereta
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                Apakah anda yakin akan menghapus Kerta ini?
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
-                            <form action="{{ route('kereta.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                            </form>
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal-{{ $item->id }}" tabindex="1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Hapus Kereta
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Apakah anda yakin akan menghapus Kerta ini?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
+                        <form action="{{ route('kereta.destroy', $item->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        @endforeach
+        </div>
+    @endforeach
 @endsection
