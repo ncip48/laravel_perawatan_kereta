@@ -81,7 +81,7 @@ class ChecksheetController extends Controller
     public function show(string $id)
     {
         //
-        $detail = Checksheet::select('checksheet.*', 'master_kereta.nama_kereta')
+        $detail = Checksheet::select('checksheet.*', 'master_kereta.nama_kereta', 'master_kereta.car')
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->where('checksheet.id', $id)
             ->first();
@@ -103,18 +103,18 @@ class ChecksheetController extends Controller
             }
             $items = $items->get();
             $item->lists = $items->map(function ($item) use ($id) {
-                $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->first();
-                $item->dilakukan = $detail->dilakukan ?? null;
-                $item->hasil = $detail->hasil ?? null;
-                $item->keterangan = $detail->keterangan ?? null;
+                $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->get();
+                $item->detail = $detail;
                 return $item;
             });
             return $item;
         });
+        $cars = json_decode($detail->car);
+        // dd($categories);
 
         $active = 'master_checksheet';
 
-        return view('master_checksheet.checksheet.detail', compact('active', 'detail', 'categories'));
+        return view('master_checksheet.checksheet.detail', compact('active', 'detail', 'categories', 'cars'));
     }
 
     /**
@@ -176,11 +176,12 @@ class ChecksheetController extends Controller
         setlocale(LC_TIME, 'id_ID.utf8');
         Carbon::setLocale('id');
 
-        $detail = Checksheet::select('checksheet.*', 'master_kereta.nama_kereta')
+        $detail = Checksheet::select('checksheet.*', 'master_kereta.nama_kereta', 'master_kereta.car')
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->where('checksheet.id', $id)
             ->first();
         $detail->tanggal = Carbon::parse($detail->date_time)->isoFormat('dddd, D MMMM Y');
+        // $detail->tanggal = Carbon::parse($detail->date_time)->isoFormat('D MMMM Y');
         $detail->jam = Carbon::parse($detail->date_time)->isoFormat('HH:mm');
         $detail->teknisi = User::where('id', $detail->id_user)->first();
         $detail->assman = User::where('id', $detail->id_approve_assman)->first();
@@ -204,21 +205,20 @@ class ChecksheetController extends Controller
             }
             $items = $items->get();
             $item->lists = $items->map(function ($item) use ($id) {
-                $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->first();
-                $item->dilakukan = $detail->dilakukan ?? null;
-                $item->hasil = $detail->hasil ?? null;
-                $item->keterangan = $detail->keterangan ?? null;
+                $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id)->get();
+                $item->detail = $detail;
+                $item->is_empty_border = count($item->detail) == 0 && $item->car_index != null;
                 return $item;
             });
             return $item;
         });
+        $cars = json_decode($detail->car);
+        // return view('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars'));
+        // dd($categories);
 
-        // return view('master_checksheet.checksheet.print', compact('detail', 'categories'));
-
-        
-        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories'));
+        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars'));
         $pdf->setPaper('A4', 'potrait');
-        $title = 'Checksheet'. $detail->nama_kereta. ' - ' . $detail->tanggal;
+        $title = 'Checksheet' . $detail->nama_kereta . ' - ' . $detail->tanggal;
         return $pdf->stream($title . '.pdf');
     }
 

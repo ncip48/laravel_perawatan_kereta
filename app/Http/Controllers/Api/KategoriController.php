@@ -8,6 +8,7 @@ use App\Models\Detail_checksheet;
 use App\Models\Foto;
 use App\Models\Item_checksheet;
 use App\Models\Kategori_checksheet;
+use App\Models\Kereta;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -170,6 +171,7 @@ class KategoriController extends Controller
         $categories = $categories->get();
         $categories = $categories->map(function ($item) use ($id_checksheet) {
             $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id_checksheet)->first();
+            $item->car_index = json_decode($item->car_index);
             $item->dilakukan = $detail->dilakukan ?? null;
             $item->hasil = $detail->hasil ?? null;
             $item->keterangan = $detail->keterangan ?? null;
@@ -183,6 +185,66 @@ class KategoriController extends Controller
                 $item->foto = [];
             }
             $item->id_detail_checksheet = $detail->id ?? null;
+            return $item;
+        });
+        return ResponseController::customResponse(true, 'Berhasil mendapakan item checklist!', $categories);
+    }
+
+    public function getAllListByIdv3(Request $request)
+    {
+        $id = $request->id;
+        $id_checksheet = $request->id_checksheet;
+        $tipe = $request->tipe;
+        $periode = $request->periode;
+        $authuser = auth()->user();
+        $categories = Item_checksheet::where('id_kereta', $authuser->id_kereta)->where('id_kategori_checksheet', $id);
+        if ($tipe == 0) {
+            $categories = $categories->where('harian', "1");
+        } else {
+            if ($periode == "P1") {
+                $categories = $categories->where('p1', "1");
+            } else if ($periode == "P3") {
+                $categories = $categories->where('p3', "1");
+            } else if ($periode == "P6") {
+                $categories = $categories->where('p6', "1");
+            } else if ($periode == "P12") {
+                $categories = $categories->where('p12', "1");
+            }
+        }
+        $categories = $categories->get();
+        $categories = $categories->map(function ($item) use ($id_checksheet) {
+            $detail = Detail_checksheet::where('id_item_checksheet', $item->id)->where('id_checksheet', $id_checksheet)->get();
+            $item->detail = $detail;
+            $car_index = json_decode($item->car_index);
+            //find in $kereta->car find by index in $car_index then combine {index:x, name:y}
+            $car_name = Kereta::where('id', $item->id_kereta)->first()->car;
+            $car_name = json_decode($car_name);
+            $new_car_index = [];
+            if ($car_index) {
+                foreach ($car_index as $key) {
+                    $new_car_index[] = ['index' => $key, 'name' => $car_name[$key]];
+                }
+            }
+            $item->car_index = $new_car_index;
+            // $item->dilakukan = $detail->dilakukan ?? null;
+            // $item->hasil = $detail->hasil ?? null;
+            // $item->keterangan = $detail->keterangan ?? null;
+            if (isset($detail[0])) {
+                if ($detail[0]) {
+                    $item->foto = Foto::where('id_detail', $detail[0]->id)->get();
+                    $item->foto = $item->foto->map(function ($item) {
+                        $item->foto = asset('foto/' . $item->foto);
+                        return $item;
+                    });
+                } else {
+                    $item->foto = [];
+                }
+                $item->keterangan = $detail[0]->keterangan ?? null;
+            } else {
+                $item->foto = [];
+                $item->keterangan = null;
+            }
+            $item->id_detail_checksheet = $detail[0]->id ?? null;
             return $item;
         });
         return ResponseController::customResponse(true, 'Berhasil mendapakan item checklist!', $categories);

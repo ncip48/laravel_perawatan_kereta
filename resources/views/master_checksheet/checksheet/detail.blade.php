@@ -50,8 +50,8 @@
                             <a href="{{ route('checksheet.index') }}" class="btn btn-danger"><i
                                     class="material-icons">arrow_back</i>Kembali</a>
                             {{-- <a href="#" class="btn btn-success"><i class="material-icons">print</i>Cetak Laporan</a> --}}
-                            <a href="{{ route('checksheet.print', $detail->id) }}" class="btn btn-success" target="_blank"><i
-                                    class="material-icons">print</i>Cetak Laporan</a>
+                            <a href="{{ route('checksheet.print', $detail->id) }}" class="btn btn-success"
+                                target="_blank"><i class="material-icons">print</i>Cetak Laporan</a>
 
                             @foreach ($categories as $category)
                                 <div class="alert alert-primary mt-4">{{ $category->nama }}</div>
@@ -62,15 +62,16 @@
                                             <tr style="vertical-align : middle;text-align:center;">
                                                 <th rowspan="2" class="text-center">No</th>
                                                 <th rowspan="2">Uraian Pekerjaan</th>
-                                                <th colspan="2">Dilakukan</th>
-                                                <th colspan="2">Hasil</th>
-                                                <th rowspan="2">Keterangan</th>
+                                                @foreach ($cars as $car)
+                                                    <th colspan="2">{{ $car }}</th>
+                                                @endforeach
+                                                {{-- <th rowspan="2">Keterangan</th> --}}
                                             </tr>
                                             <tr class="text-center">
-                                                <th>Ya</th>
-                                                <th>Tidak</th>
-                                                <th>Baik</th>
-                                                <th>Tidak</th>
+                                                @foreach ($cars as $car)
+                                                    <th>OK</th>
+                                                    <th>NG</th>
+                                                @endforeach
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -78,27 +79,23 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $list->nama_item }}</td>
-                                                    <td class="text-center">
-                                                        @if ($list->dilakukan == '1')
-                                                            <i class="material-icons text-dark">check</i>
+                                                    @foreach ($cars as $key => $car)
+                                                        @if ($list->detail->where('car', $key)->first() == null)
+                                                            <td colspan="2" class="text-center"></td>
+                                                        @else
+                                                            <td class="text-center">
+                                                                @if ($list->detail->where('car', $key)->first()->hasil == '1')
+                                                                    <i class="material-icons text-dark">check</i>
+                                                                @endif
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if ($list->detail->where('car', $key)->first()->hasil == '0')
+                                                                    <i class="material-icons text-dark">check</i>
+                                                                @endif
+                                                            </td>
                                                         @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if ($list->dilakukan == '0')
-                                                            <i class="material-icons text-dark">check</i>
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if ($list->hasil == '1')
-                                                            <i class="material-icons text-dark">check</i>
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if ($list->hasil == '0')
-                                                            <i class="material-icons text-dark">check</i>
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $list->keterangan }}</td>
+                                                    @endforeach
+                                                    {{-- <td>{{ $list->detail->first()->keterangan ?? '' }}</td> --}}
                                                 </tr>
                                             @empty
                                                 <tr>

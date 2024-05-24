@@ -74,7 +74,9 @@ class ItemChecksheetController extends Controller
         $keretas = Kereta::all();
         $kategories = Kategori_checksheet::all();
         $active = 'master_checksheet';
-        return view('master_checksheet.itemchecksheet.edit', compact('active', 'items', 'keretas', 'kategories'));
+        $cars = Kereta::where('id', $items->id_kereta)->first();
+        $cars = json_decode($cars->car);
+        return view('master_checksheet.itemchecksheet.edit', compact('active', 'items', 'keretas', 'kategories', 'cars', 'cars'));
     }
 
     /**
@@ -104,6 +106,7 @@ class ItemChecksheetController extends Controller
                 'p3' => $request->p3,
                 'p6' => $request->p6,
                 'p12' => $request->p12,
+                'car_index' => $request->car_index
             ]);
         return redirect()->route('item_checksheet.index')->with('status', 'Data Item Checksheet berhasil diubah!');
     }

@@ -44,6 +44,41 @@ class ChecksheetController extends Controller
         }
     }
 
+    public function createDetailChecksheetv2(Request $request)
+    {
+        $dilakukan = 1;
+        $hasil = $request->hasil;
+        $id_checksheet = $request->id_checksheet;
+        $id_item = $request->id_item_checksheet;
+        $keterangan = $request->keterangan;
+        $car = $request->index;
+
+        if ($car) {
+            $existing = Detail_checksheet::where('id_checksheet', $id_checksheet)->where('id_item_checksheet', $id_item)->where('car', $car)->first();
+        } else {
+            //buat keterangan
+            $existing = Detail_checksheet::where('id_checksheet', $id_checksheet)->where('id_item_checksheet', $id_item)->first();
+        }
+
+        if ($existing) {
+            $existing->dilakukan = $dilakukan;
+            $existing->hasil = $hasil;
+            $existing->keterangan = $keterangan;
+            $existing->car = $car;
+            $existing->save();
+            return ResponseController::customResponse(true, 'Berhasil mengubah detail checksheet!', $existing);
+        } else {
+            $detail = new Detail_checksheet();
+            $detail->id_checksheet = $id_checksheet;
+            $detail->id_item_checksheet = $id_item;
+            $detail->dilakukan = $dilakukan;
+            $detail->hasil = $hasil;
+            $detail->car = $car;
+            $detail->save();
+            return ResponseController::customResponse(true, 'Berhasil menambah detail checksheet!', $detail);
+        }
+    }
+
     public function uploadFoto(Request $request)
     {
         $id_detail_checksheet = $request->id_detail_checksheet;

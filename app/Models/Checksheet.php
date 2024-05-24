@@ -17,6 +17,7 @@ class Checksheet extends Model
         'tipe',
         'jam_engine',
         'is_so',
-        'p'
+        'p',
+        'car'
     ];
 }

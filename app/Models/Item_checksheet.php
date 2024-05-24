@@ -18,6 +18,7 @@ class Item_checksheet extends Model
         'p1',
         'p3',
         'p6',
-        'p12'
+        'p12',
+        'car_index'
     ];
 }

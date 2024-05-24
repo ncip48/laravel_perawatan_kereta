@@ -104,6 +104,21 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror --}}
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="check_item">Car</label>
+                                            @foreach ($cars as $key => $car)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        value="{{ $key }}" name="car_index[]"
+                                                        id="car_{{ $key }}"
+                                                        {{ isset($items->car_index) && in_array($key, json_decode($items->car_index)) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="car_{{ $key }}">
+                                                        {{ $car }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </form>
                                 </div>
                             </div>
