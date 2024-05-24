@@ -179,12 +179,12 @@
                         <img src="https://imsservice.co.id/assets/inka-border.png" alt="Logo PT IMSS"
                             style="height: 35px;">
                     </td>
-                    <td class="padding" style="width:13rem;padding-left:10px;padding-right:10px">
+                    <td class="padding" style="width:14rem;padding-left:25px;padding-right:25px">
                         <h3 class="text" style="font-size: 13px">
                             CHECKSHEET PERAWATAN {{ $detail->nama_kereta }}
                         </h3>
                     </td>
-                    <td class="padding" style="padding-left:10px;padding-right:10px">
+                    <td class="padding" style="padding-left:10px;padding-right:10px;width:4rem;">
                         <h3 class="text" style="font-size: 13px">
                             {{ $detail->tipe == '0' ? 'HARIAN' : "BULANAN ($detail->p)" }}
                         </h3>
