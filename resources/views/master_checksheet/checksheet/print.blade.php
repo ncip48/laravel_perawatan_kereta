@@ -197,17 +197,17 @@
                     <td style="padding:0px!important">
                         <table class="tgl">
                             <tr style="border-bottom: 1px solid black!important;padding-bottom:5px">
-                                <td style="text-align: left;width: 7rem;height:15px">Tgl. Pemeriksaan</td>
+                                <td style="text-align: left;width: 7rem;height:18px">Tgl. Pemeriksaan</td>
                                 <td>:</td>
                                 <td>{{ $detail->tanggal }} {{ $detail->jam }}</td>
                             </tr>
                             <tr style="border-bottom: 1px solid black!important;padding-bottom:5px">
-                                <td style="text-align: left;width: 7rem;height:15px">No. Rangkaian Kereta</td>
+                                <td style="text-align: left;width: 7rem;height:18px">No. Rangkaian Kereta</td>
                                 <td>:</td>
                                 <td>{{ $detail->no_kereta }}</td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;width: 7rem;height:15px">Jam Engine</td>
+                                <td style="text-align: left;width: 7rem;height:18px">Jam Engine</td>
                                 <td>:</td>
                                 <td>{{ $detail->jam_engine }}</td>
                             </tr>
