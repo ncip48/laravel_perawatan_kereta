@@ -167,6 +167,11 @@
         h3 {
             margin-bottom: 0px !important
         }
+
+
+        /* footer:after {
+            content: "Page " counter(page);
+        } */
     </style>
 </head>
 
@@ -272,20 +277,20 @@
                                         @else
                                             <td style="text-align: center;border: 1px solid black;border-right:none">
                                                 @if ($list->detail->where('car', $key)->first()->hasil == '1')
-                                                    {{-- <img class="icon"
+                                                    <img class="icon"
                                                         src="templates/source/assets/images/check-symbol.png"
-                                                        alt=""> --}}
-                                                    <div style="background-color: black; height: 12px;">
-                                                    </div>
+                                                        alt="">
+                                                    {{-- <div style="background-color: black; height: 12px;">
+                                                    </div> --}}
                                                 @endif
                                             </td>
                                             <td style="text-align: center;border: 1px solid black">
                                                 @if ($list->detail->where('car', $key)->first()->hasil == '0')
-                                                    {{-- <img class="icon"
+                                                    <img class="icon"
                                                         src="templates/source/assets/images/check-symbol.png"
-                                                        alt=""> --}}
-                                                    <div style="background-color: black; height: 12px;">
-                                                    </div>
+                                                        alt="">
+                                                    {{-- <div style="background-color: black; height: 12px;">
+                                                    </div> --}}
                                                 @endif
                                             </td>
                                             <td></td>

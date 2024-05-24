@@ -219,6 +219,31 @@ class ChecksheetController extends Controller
         $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars'));
         $pdf->setPaper('A4', 'potrait');
         $title = 'Checksheet' . $detail->nama_kereta . ' - ' . $detail->tanggal;
+
+        // Parameters
+        $width_paper = $pdf->getPaperSize()[2];
+        $x          = $width_paper / 2;
+        $y          = 825;
+        $text       = "Page {PAGE_NUM} of {PAGE_COUNT}";
+        $font       = $pdf->getFontMetrics()->get_font('Helvetica', 'normal');
+        $size       = 7;
+        $color      = array(0, 0, 0);
+        $word_space = 0.0;
+        $char_space = 0.0;
+        $angle      = 0.0;
+
+        $pdf->getCanvas()->page_text(
+            $x,
+            $y,
+            $text,
+            $font,
+            $size,
+            $color,
+            $word_space,
+            $char_space,
+            $angle
+        );
+
         return $pdf->stream($title . '.pdf');
     }
 
