@@ -58,7 +58,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="standar">Standar</label>
-                                            <textarea type="text" id="standar" class="form-control" name="standar" placeholder="Masukan standar pemeriksaan (opsional)"></textarea>
+                                            <textarea type="text" id="standar" class="form-control" name="standar"
+                                                placeholder="Masukan standar pemeriksaan (opsional)"></textarea>
                                             @error('standar')
                                                 {{-- <span class="text-danger">{{ $message }}</span> --}}
                                             @enderror
@@ -103,6 +104,19 @@
                                             {{-- @error('check_item')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror --}}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="check_item">Car</label>
+                                            @foreach ($cars as $key => $car)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        value="{{ $key }}" name="car_index[]"
+                                                        id="car_{{ $key }}">
+                                                    <label class="form-check-label" for="car_{{ $key }}">
+                                                        {{ $car }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </form>
                                 </div>

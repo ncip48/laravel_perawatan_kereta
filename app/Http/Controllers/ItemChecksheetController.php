@@ -19,6 +19,22 @@ class ItemChecksheetController extends Controller
             ->join('kategori_checksheet', 'item_checksheet.id_kategori_checksheet', '=', 'kategori_checksheet.id')
             ->join('master_kereta', 'kategori_checksheet.id_kereta', '=', 'master_kereta.id')
             ->get();
+        $items = $items->map(function ($item) {
+            $kereta = Kereta::find($item->id_kereta)->first();
+            $car_index = json_decode($item->car_index);
+            //find in $kereta->car find by index in $car_index then combine {index:x, name:y}
+            $car_name = $kereta->car;
+            $car_name = json_decode($car_name);
+            $car = [];
+            if ($car_index) {
+                foreach ($car_index as $key) {
+                    $car[] = $car_name[$key];
+                }
+            }
+            $item->car = implode(', ', $car);
+            return $item;
+        });
+
         $keretas = Kereta::all();
         $active = 'master_checksheet';
         return view('master_checksheet.itemchecksheet.index', compact('active', 'items', 'keretas'));
@@ -29,11 +45,13 @@ class ItemChecksheetController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
         $active = 'master_checksheet';
         $keretas = Kereta::all();
         $kategories = Kategori_checksheet::all();
-        return view('master_checksheet.itemchecksheet.add', compact('active', 'keretas', 'kategories'));
+        $cars = Kereta::where('id', $user->id_kereta)->first();
+        $cars = json_decode($cars->car);
+        return view('master_checksheet.itemchecksheet.add', compact('active', 'keretas', 'kategories', 'cars'));
     }
 
     /**
@@ -52,6 +70,7 @@ class ItemChecksheetController extends Controller
             'id_kategori_checksheet.required' => 'Nama kategori tidak boleh kosong'
         ]);
         // dd($request->all());
+        $request['car_index'] = json_encode($request->car_index);
         Item_checksheet::create($request->all());
         return redirect()->route('item_checksheet.index')->with('status', 'Data Item Checksheet berhasil ditambahkan!');
     }
