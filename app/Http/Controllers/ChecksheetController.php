@@ -297,7 +297,7 @@ class ChecksheetController extends Controller
         $detail = Kereta::find(1);
         $detail->checksheet = Checksheet::whereMonth('date_time', $bulan)
             ->whereYear('date_time', $tahun)
-            ->orderBy('id', 'asc')
+            ->orderBy('date_time', 'desc')
             ->get();
 
         $detail->checksheet = $detail->checksheet->map(function ($item) {
