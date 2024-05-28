@@ -30,7 +30,7 @@
         @if ($signature)
             <h3 class="pt-4">Signature <b>Valid</b> <i class="bi bi-check-circle-fill text-warning"></i></h3>
             <h3 class="pb-3">Checksheet ini telah ditandatangani secara <i><u>digital</u></i> oleh:
-                {{ $signature->user->name }}</h3>
+                {{ $signature->user->name }} | NIP : {{ $signature->user->nip }}</h3>
             <hr />
         @else
             <h3 class="pt-4">Signature <b>Invalid</b> <i class="bi bi-x-circle-fill text-danger"></i></h3>
