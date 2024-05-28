@@ -110,6 +110,10 @@ class FotoController extends Controller
             ->orderBy('item_checksheet.id', 'asc')
             ->get();
 
+        $detail_harian = $detail_harian->unique('id_item_checksheet');
+
+        // dd($detail_harian_filtered);
+
         $detail_bulanan = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan', 'checksheet.p as p')
             ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
             ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
