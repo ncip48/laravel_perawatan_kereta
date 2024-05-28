@@ -476,9 +476,35 @@ class ChecksheetController extends Controller
             return $xitem;
         });
 
+        $detail_harian = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan', 'detail_checksheet.id_item_checksheet')
+            ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
+            ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
+            ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
+            ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
+            ->whereMonth('checksheet.date_time', $bulan_asli)
+            ->whereYear('checksheet.date_time', $tahun_asli)
+            ->where('checksheet.tipe', 0)
+            ->orderBy('item_checksheet.id', 'asc')
+            ->get();
+
+        $detail_harian = $detail_harian->unique('id_item_checksheet');
+
+        // dd($detail_harian);
+
+        $detail_bulanan = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan', 'checksheet.p as p')
+            ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
+            ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
+            ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
+            ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
+            ->whereMonth('checksheet.date_time', $bulan_asli)
+            ->whereYear('checksheet.date_time', $tahun_asli)
+            ->where('checksheet.tipe', 1)
+            ->orderBy('item_checksheet.id', 'asc')
+            ->get();
+
         // dd($detail2);
 
-        $pdf = Pdf::loadView('checksheet.print', compact('active', 'detail', 'bulan', 'tahun', 'availability', 'detail2'));
+        $pdf = Pdf::loadView('checksheet.print', compact('active', 'detail', 'bulan', 'tahun', 'availability', 'detail2', 'detail_harian', 'detail_bulanan'));
         $pdf->setPaper('A4', 'potrait');
         return $pdf->stream('foto.pdf');
     }
