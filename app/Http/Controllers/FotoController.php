@@ -108,8 +108,9 @@ class FotoController extends Controller
             ->orderBy('item_checksheet.id', 'asc')
             ->get();
 
-        $bulan = strtoupper(Carbon::parse($detail[0]->datetime)->translatedFormat('F'));
-        $tahun = strtoupper(Carbon::parse($detail[0]->datetime)->year);
+
+        $dummyDate = "02-$bulan-$tahun";
+        $bulan = strtoupper(Carbon::parse($dummyDate)->translatedFormat('F'));
 
         $active = 'Foto';
         // return view('foto.print', compact('active', 'detail', 'bulan', 'tahun'));
