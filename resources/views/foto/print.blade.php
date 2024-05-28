@@ -66,7 +66,7 @@
 <body>
     <header>
         <h5>DOKUMENTASI PERAWATAN HARIAN PERIODE {{ $bulan }} {{ $tahun }}</h5>
-        <h5>KERETA {{ strtoupper($detail[0]->nama_kereta) }}</h5>
+        <h5>KERETA {{ strtoupper($kereta->nama_kereta) }}</h5>
     </header>
     <div class="container">
         @forelse ($detail as $item)
