@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemChecksheetController;
 use App\Http\Controllers\KategoriChecksheetController;
 use App\Http\Controllers\KategorisparepartController;
 use App\Http\Controllers\KeretaController;
+use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\SparepartController;
 use App\Http\Controllers\UserController;
 use App\Models\Kategori_checksheet;
@@ -77,6 +78,8 @@ Route::get('checksheet/approve/{id}', [ChecksheetController::class, 'approve'])-
 
 Route::get('print', [FotoController::class, 'print'])->name('photo.print');
 Route::get('download', [FotoController::class, 'download'])->name('photo.download');
+
+Route::get('verify/{uid}', [SignatureController::class, 'index'])->name('signature.index');
 
 Route::post('login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.action');
 Route::get('logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');

@@ -8,6 +8,7 @@ use App\Models\Foto;
 use App\Models\Item_checksheet;
 use App\Models\Kategori_checksheet;
 use App\Models\Kereta;
+use App\Models\Signature;
 use App\Models\User;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use iio\libmergepdf\Merger;
 use Illuminate\Support\Facades\Auth;
+use stdClass;
+use Illuminate\Support\Str;
 
 class ChecksheetController extends Controller
 {
@@ -186,6 +189,10 @@ class ChecksheetController extends Controller
         $detail->teknisi = User::where('id', $detail->id_user)->first();
         $detail->assman = User::where('id', $detail->id_approve_assman)->first();
         $detail->upt = User::where('id', $detail->id_approve_spv)->first();
+        $detail->signature = new stdClass;
+        $detail->signature->teknisi = Signature::where('id_checksheet', $detail->id)->where('id_user', $detail->id_user)->first() ?? null;
+        $detail->signature->assman = Signature::where('id_checksheet', $detail->id)->where('id_user', $detail->id_approve_assman)->first() ?? null;
+        $detail->signature->upt = Signature::where('id_checksheet', $detail->id)->where('id_user', $detail->id_approve_spv)->first() ?? null;
 
         $categories = Kategori_checksheet::where('id_kereta', $detail->id_kereta)->get();
         $categories = $categories->map(function ($item) use ($id, $detail) {
@@ -342,6 +349,14 @@ class ChecksheetController extends Controller
             $checksheet->is_approve = 1;
             $checksheet->save();
         }
+
+        //add signature
+        Signature::create([
+            'identity' => Str::uuid()->toString(),
+            'id_user' => $auth->id,
+            'id_checksheet' => $id
+        ]);
+
         return redirect()->route('checksheet.index')->with('status', 'Data Checksheet berhasil diapprove!');
     }
 }

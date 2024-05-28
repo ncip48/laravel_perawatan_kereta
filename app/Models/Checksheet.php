@@ -18,6 +18,9 @@ class Checksheet extends Model
         'jam_engine',
         'is_so',
         'p',
-        'car'
+        'car',
+        'id_approve_assman',
+        'id_approve_spv',
+        'id_approve',
     ];
 }

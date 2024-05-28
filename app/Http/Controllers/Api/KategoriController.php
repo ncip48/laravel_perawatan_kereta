@@ -9,10 +9,12 @@ use App\Models\Foto;
 use App\Models\Item_checksheet;
 use App\Models\Kategori_checksheet;
 use App\Models\Kereta;
+use App\Models\Signature;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
+use Illuminate\Support\Str;
 
 class KategoriController extends Controller
 {
@@ -102,6 +104,12 @@ class KategoriController extends Controller
             'tipe' => $request->tipe,
             'jam_engine' => $request->jam_engine,
             'p' => $request->p ?? null
+        ]);
+
+        Signature::create([
+            'identity' => Str::uuid()->toString(),
+            'id_user' => $authuser->id,
+            'id_checksheet' => $data->id,
         ]);
 
         return ResponseController::customResponse(true, 'Berhasil menambahkan Checksheet!', $data);

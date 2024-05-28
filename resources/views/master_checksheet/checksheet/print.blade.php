@@ -382,21 +382,21 @@
                         <tr style="text-align: center;">
                             <td style="height: 75px;text-align: center;">
                                 @if (isset($detail->assman))
-                                    @php $sign_assman = $detail->assman->nip . '|' . $detail->assman->name @endphp
+                                    @php $sign_assman = url("verify/".$detail->signature->assman->identity) @endphp
                                     <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_assman)) !!} ">
                                 @else
                                 @endif
                             </td>
                             <td style="height: 75px;text-align: center;">
                                 @if (isset($detail->upt))
-                                    @php $sign_upt = $detail->upt->nip . '|' . $detail->upt->name @endphp
+                                    @php $sign_upt = url("verify/".$detail->signature->upt->identity) @endphp
                                     <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_upt)) !!} ">
                                 @else
                                     -
                                 @endif
                             </td>
                             <td style="text-align: center;">
-                                @php $sign_teknisi = $detail->teknisi->nip . '|' . $detail->teknisi->name @endphp
+                                @php $sign_teknisi = url("verify/".$detail->signature->teknisi->identity) @endphp
                                 <img src="data:image/png;base64, {!! base64_encode(QrCode::size(70)->generate($sign_teknisi)) !!} ">
                             </td>
                         </tr>
