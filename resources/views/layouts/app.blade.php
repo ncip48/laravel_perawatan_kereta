@@ -1,14 +1,14 @@
 @php
-$auth = auth()->user();
-$enc = App\Http\Controllers\Controller::encrypt($auth->nip);
+    $auth = auth()->user();
+    $enc = App\Http\Controllers\Controller::encrypt($auth->nip);
 
-if($auth->role == 0){
-$role = 'Admin';
-}else if($auth->role == 1){
-$role = 'Assman UPT DEPO';
-}else if($auth->role == 2){
-$role = "SPV Ruas Luar";
-}
+    if ($auth->role == 0) {
+        $role = 'Admin';
+    } elseif ($auth->role == 1) {
+        $role = 'Assman UPT DEPO';
+    } elseif ($auth->role == 2) {
+        $role = 'SPV Ruas Luar';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -28,9 +28,13 @@ $role = "SPV Ruas Luar";
 
     <!-- Styles -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
     <link href="{{ asset('templates/source/assets/plugins/bootstrap/css/bootstrap.min.css') }} " rel="stylesheet">
     <link href="{{ asset('templates/source/assets/plugins/perfectscroll/perfect-scrollbar.css') }}" rel="stylesheet">
     <link href="{{ asset('templates/source/assets/plugins/pace/pace.css') }}" rel="stylesheet">
@@ -40,8 +44,10 @@ $role = "SPV Ruas Luar";
     <link href="{{ asset('templates/source/assets/css/main.min.css') }}" rel="stylesheet">
     <link href="{{ asset('templates/source/assets/css/custom.css') }}" rel="stylesheet">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('templates/source/assets/images/inka-border.png') }}" />
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('templates/source/assets/images/inka-border.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ asset('templates/source/assets/images/inka-border.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ asset('templates/source/assets/images/inka-border.png') }}" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -63,7 +69,7 @@ $role = "SPV Ruas Luar";
                         <img src="{{ asset('templates/source/assets/images/avatars/avatar1.jpeg') }}">
                     <span class="activity-indicator"></span>
                     </a> --}}
-                    <span class="user-info-text">{{$role}}<br></span>
+                    <span class="user-info-text">{{ $role }}<br></span>
                     <p class="fw-bold">PT IMSS</p>
                 </div>
             </div>
@@ -73,19 +79,20 @@ $role = "SPV Ruas Luar";
                         Master
                     </li>
                     <li>
-                        <a href="{{ url('dashboard') }}" class="{{ $active == 'dashboard' ? 'active' : '' }}"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
+                        <a href="{{ url('dashboard') }}" class="{{ $active == 'dashboard' ? 'active' : '' }}"><i
+                                class="material-icons-two-tone">dashboard</i>Dashboard</a>
                     </li>
-                    @if(auth()->user()->role == 0)
-                    <li>
-                        <a href="{{ url('user') }}" class="{{ $active == 'master_user' ? 'active' : '' }}">
-                            <i class="material-icons-two-tone">group_add</i>Master User</a>
-                    </li>
+                    @if (auth()->user()->role == 0)
+                        <li>
+                            <a href="{{ url('user') }}" class="{{ $active == 'master_user' ? 'active' : '' }}">
+                                <i class="material-icons-two-tone">group_add</i>Master User</a>
+                        </li>
                     @endif
-                    @if(auth()->user()->role == 0)
-                    <li>
-                        <a href="{{ url('kereta') }}" class="{{ $active == 'master_kereta' ? 'active' : '' }}">
-                            <i class="material-icons-two-tone">train</i>Master Kereta</a>
-                    </li>
+                    @if (auth()->user()->role == 0)
+                        <li>
+                            <a href="{{ url('kereta') }}" class="{{ $active == 'master_kereta' ? 'active' : '' }}">
+                                <i class="material-icons-two-tone">train</i>Master Kereta</a>
+                        </li>
                     @endif
                     {{-- <li>
                         <a class="{{ $active == 'master_sparepart' ? 'active' : '' }}"><i class="material-icons-two-tone">handyman</i>Master Sparepart<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
@@ -99,20 +106,22 @@ $role = "SPV Ruas Luar";
                     </ul>
                     </li> --}}
                     <li>
-                        <a class="{{ $active == 'master_checksheet' ? 'active' : '' }}"><i class="material-icons-two-tone">save_as</i>Master Checksheet<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                        <a class="{{ $active == 'master_checksheet' ? 'active' : '' }}"><i
+                                class="material-icons-two-tone">save_as</i>Master Checksheet<i
+                                class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                         <ul class="sub-menu">
-                            @if(auth()->user()->role == 0)
-                            <li>
-                                <a href="{{ url('kategori_checksheet') }}">Kategori Checksheet</a>
-                            </li>
+                            @if (auth()->user()->role == 0)
+                                <li>
+                                    <a href="{{ url('kategori_checksheet') }}">Kategori Checksheet</a>
+                                </li>
                             @endif
                             {{-- <li>
                                 <a href="#">Sub Kategori Checksheet</a>
                             </li> --}}
-                            @if(auth()->user()->role == 0)
-                            <li>
-                                <a href="{{ url('item_checksheet') }}">Uraian Pekerjaan</a>
-                            </li>
+                            @if (auth()->user()->role == 0)
+                                <li>
+                                    <a href="{{ url('item_checksheet') }}">Uraian Pekerjaan</a>
+                                </li>
                             @endif
                             <li>
                                 <a href="{{ url('checksheet') }}">Laporan Checksheet</a>
@@ -129,6 +138,11 @@ $role = "SPV Ruas Luar";
                     <li>
                         <a href="{{ url('so') }}" class="{{ $active == 'so' ? 'active' : '' }}">
                             <i class="material-icons-two-tone">receipt_long</i>SO/TSO</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('report_checksheet') }}"
+                            class="{{ $active == 'report_checksheet' ? 'active' : '' }}">
+                            <i class="material-icons-two-tone">receipt</i>Checksheet</a>
                     </li>
                     {{-- <li>
                         <a href="#" class="{{ $active == 'laporan' ? 'active' : '' }}">
@@ -157,7 +171,8 @@ $role = "SPV Ruas Luar";
                         <div class="navbar-nav" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link hide-sidebar-toggle-button" href="#"><i class="material-icons">menu</i></a>
+                                    <a class="nav-link hide-sidebar-toggle-button" href="#"><i
+                                            class="material-icons">menu</i></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#"> @yield('title')</a>
@@ -172,10 +187,12 @@ $role = "SPV Ruas Luar";
                                             class="material-icons">search</i></a>
                                 </li> --}}
                                 <li class="nav-item-dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown">
-                                        <i class="material-icons">account_circle</i> {{$auth->name}}
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                        data-bs-toggle="dropdown">
+                                        <i class="material-icons">account_circle</i> {{ $auth->name }}
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                    <ul class="dropdown-menu dropdown-menu-end"
+                                        aria-labelledby="navbarDropdownMenuLink">
                                         {{-- <li><a class="dropdown-item" href="#">Profile</a></li> --}}
                                         <li><a class="dropdown-item" href={{ route('logout') }}>Logout</a></li>
                                     </ul>
@@ -206,7 +223,8 @@ $role = "SPV Ruas Luar";
     <script src="{{ asset('templates/source/assets/js/custom.js') }}"></script>
     <script src="{{ asset('templates/source/assets/js/pages/dashboard.js') }}"></script>
     <script src="{{ asset('templates/source/assets/js/pages/datatables.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
 
     @stack('scripts')

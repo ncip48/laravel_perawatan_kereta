@@ -70,11 +70,15 @@ Route::middleware(['auth'])->group(function () {
     //SO
     Route::get('so', [ChecksheetController::class, 'report_so']);
     Route::get('so/print', [ChecksheetController::class, 'print_report_so'])->name('so.print');
+
+    //Report Checksheet
+    Route::get('report_checksheet', [ChecksheetController::class, 'report_checksheet']);
 });
 
 // cetak checksheet
 Route::get('checksheet/print/{id}', [ChecksheetController::class, 'print'])->name('checksheet.print');
 Route::get('checksheet/approve/{id}', [ChecksheetController::class, 'approve'])->name('checksheet.approve');
+Route::get('report_checksheet/print', [ChecksheetController::class, 'print_report_checksheet'])->name('report.checksheet.print');
 
 Route::get('print', [FotoController::class, 'print'])->name('photo.print');
 Route::get('download', [FotoController::class, 'download'])->name('photo.download');
