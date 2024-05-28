@@ -60,6 +60,10 @@
             font-size: 12px;
             margin-top: 5px;
         }
+
+        .page_break {
+            page-break-before: always;
+        }
     </style>
 </head>
 
@@ -69,7 +73,26 @@
         <h5>KERETA {{ strtoupper($kereta->nama_kereta) }}</h5>
     </header>
     <div class="container">
-        @forelse ($detail as $item)
+        @forelse ($detail_harian as $item)
+            <div class="photo">
+                @php
+                    // $gambar = 'https://pka.dotech.cfd/public/foto/' . $item->foto;
+                    $filePath = public_path('foto/' . $item->foto);
+                    $gambar = file_get_contents($filePath);
+                    $gambar = base64_encode($gambar);
+                    $gambar = 'data:image/jpeg;base64,' . $gambar;
+                @endphp
+                <img src="{{ $gambar }}" alt="{{ $item->nama_item }}" width="340px" height="265px"
+                    style="object-fit: fill">
+            </div>
+            <p>{{ $item->nama_item }}</p>
+        @empty
+            <p>Tidak ada foto</p>
+        @endforelse
+
+        <div class="page_break"></div>
+
+        @forelse ($detail_bulanan as $item)
             <div class="photo">
                 @php
                     // $gambar = 'https://pka.dotech.cfd/public/foto/' . $item->foto;

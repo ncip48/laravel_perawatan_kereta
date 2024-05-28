@@ -99,13 +99,25 @@ class FotoController extends Controller
         $bulan = $request->bulan;
         $tahun = $request->tahun;
         $kereta = Kereta::find(1);
-        $detail = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan')
+        $detail_harian = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan')
             ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
             ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
             ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->whereMonth('checksheet.date_time', $bulan)
             ->whereYear('checksheet.date_time', $tahun)
+            ->where('checksheet.tipe', 0)
+            ->orderBy('item_checksheet.id', 'asc')
+            ->get();
+
+        $detail_bulanan = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan')
+            ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
+            ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
+            ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
+            ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
+            ->whereMonth('checksheet.date_time', $bulan)
+            ->whereYear('checksheet.date_time', $tahun)
+            ->where('checksheet.tipe', 1)
             ->orderBy('item_checksheet.id', 'asc')
             ->get();
 
@@ -116,7 +128,7 @@ class FotoController extends Controller
         $active = 'Foto';
         // return view('foto.print', compact('active', 'detail', 'bulan', 'tahun'));
 
-        $pdf = Pdf::loadView('foto.print', compact('active', 'detail', 'bulan', 'tahun', 'kereta'));
+        $pdf = Pdf::loadView('foto.print', compact('active', 'detail_harian', 'detail_bulanan', 'bulan', 'tahun', 'kereta'));
         $pdf->setPaper('A4', 'potrait');
         return $pdf->stream('foto.pdf');
     }
