@@ -110,7 +110,7 @@ class FotoController extends Controller
             ->orderBy('item_checksheet.id', 'asc')
             ->get();
 
-        $detail_bulanan = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan')
+        $detail_bulanan = Foto::select('foto.*', 'item_checksheet.*', 'master_kereta.nama_kereta', 'checksheet.date_time as datetime', 'checksheet.tipe as tipe_laporan', 'checksheet.p as p')
             ->join('detail_checksheet', 'foto.id_detail', '=', 'detail_checksheet.id')
             ->join('item_checksheet', 'detail_checksheet.id_item_checksheet', '=', 'item_checksheet.id')
             ->join('checksheet', 'detail_checksheet.id_checksheet', '=', 'checksheet.id')
@@ -126,7 +126,7 @@ class FotoController extends Controller
         $bulan = strtoupper(Carbon::parse($dummyDate)->translatedFormat('F'));
 
         $active = 'Foto';
-        // return view('foto.print', compact('active', 'detail', 'bulan', 'tahun'));
+        // return view('foto.print', compact('active', 'detail_harian', 'detail_bulanan', 'bulan', 'tahun', 'kereta'));
 
         $pdf = Pdf::loadView('foto.print', compact('active', 'detail_harian', 'detail_bulanan', 'bulan', 'tahun', 'kereta'));
         $pdf->setPaper('A4', 'potrait');

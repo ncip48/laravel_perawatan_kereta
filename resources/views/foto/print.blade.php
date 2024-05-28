@@ -9,7 +9,7 @@
         }
 
         body {
-            margin-top: 2cm;
+            margin-top: 0.4cm;
             margin-left: 1cm;
             margin-right: 1cm;
             margin-bottom: 1cm;
@@ -21,14 +21,9 @@
             /* font-size: 0.9rem; */
         }
 
-        header {
-            font-size: 22px;
+        h5 {
+            font-size: 18px !important;
             font-weight: bold;
-            text-align: center;
-            position: fixed;
-            top: 0.5cm;
-            left: 1cm;
-            right: 1cm;
         }
 
         h5 {
@@ -57,57 +52,94 @@
         }
 
         .date {
-            font-size: 12px;
+            font-size: 10px;
             margin-top: 5px;
         }
 
         .page_break {
             page-break-before: always;
         }
+
+        .small {
+            font-size: 14px;
+        }
     </style>
 </head>
 
 <body>
-    <header>
-        <h5>DOKUMENTASI PERAWATAN HARIAN PERIODE {{ $bulan }} {{ $tahun }}</h5>
-        <h5>KERETA {{ strtoupper($kereta->nama_kereta) }}</h5>
-    </header>
     <div class="container">
-        @forelse ($detail_harian as $item)
-            <div class="photo">
-                @php
-                    // $gambar = 'https://pka.dotech.cfd/public/foto/' . $item->foto;
-                    $filePath = public_path('foto/' . $item->foto);
-                    $gambar = file_get_contents($filePath);
-                    $gambar = base64_encode($gambar);
-                    $gambar = 'data:image/jpeg;base64,' . $gambar;
-                @endphp
-                <img src="{{ $gambar }}" alt="{{ $item->nama_item }}" width="340px" height="265px"
-                    style="object-fit: fill">
-            </div>
-            <p>{{ $item->nama_item }}</p>
-        @empty
-            <p>Tidak ada foto</p>
-        @endforelse
-
+        <table align="center" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center;height:1.6cm">
+                        <h5>DOKUMENTASI PERAWATAN HARIAN PERIODE {{ $bulan }} {{ $tahun }}</h5>
+                        <h5>KERETA {{ strtoupper($kereta->nama_kereta) }}</h5>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($detail_harian as $item)
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <div class="photo">
+                                @php
+                                    $filePath = public_path('foto/' . $item->foto);
+                                    $gambar = file_get_contents($filePath);
+                                    $gambar = base64_encode($gambar);
+                                    $gambar = 'data:image/jpeg;base64,' . $gambar;
+                                @endphp
+                                <img src="{{ $gambar }}" alt="{{ $item->nama_item }}" width="340px" height="265px"
+                                    style="object-fit: fill">
+                            </div>
+                            <p class="small">{{ $item->nama_item }}</p>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <p>Tidak ada foto</p>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
         <div class="page_break"></div>
-
-        @forelse ($detail_bulanan as $item)
-            <div class="photo">
-                @php
-                    // $gambar = 'https://pka.dotech.cfd/public/foto/' . $item->foto;
-                    $filePath = public_path('foto/' . $item->foto);
-                    $gambar = file_get_contents($filePath);
-                    $gambar = base64_encode($gambar);
-                    $gambar = 'data:image/jpeg;base64,' . $gambar;
-                @endphp
-                <img src="{{ $gambar }}" alt="{{ $item->nama_item }}" width="340px" height="265px"
-                    style="object-fit: fill">
-            </div>
-            <p>{{ $item->nama_item }}</p>
-        @empty
-            <p>Tidak ada foto</p>
-        @endforelse
+        <table align="center" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center;height:1.6cm">
+                        <h5>DOKUMENTASI PERAWATAN {{ $detail_bulanan[0]->p }} PERIODE {{ $bulan }}
+                            {{ $tahun }}</h5>
+                        <h5>KERETA {{ strtoupper($kereta->nama_kereta) }}</h5>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($detail_bulanan as $item)
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <div class="photo">
+                                @php
+                                    $filePath = public_path('foto/' . $item->foto);
+                                    $gambar = file_get_contents($filePath);
+                                    $gambar = base64_encode($gambar);
+                                    $gambar = 'data:image/jpeg;base64,' . $gambar;
+                                @endphp
+                                <img src="{{ $gambar }}" alt="{{ $item->nama_item }}" width="340px"
+                                    height="265px" style="object-fit: fill">
+                            </div>
+                            <p class="small">{{ $item->nama_item }}</p>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <p>Tidak ada foto</p>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </body>
 
