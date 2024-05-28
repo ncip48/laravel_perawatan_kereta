@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Print Foto - {{ $detail[0]->nama_kereta }}</title>
+    <title>Print Foto - {{ $kereta->nama_kereta }}</title>
     <style>
         @page {
             margin: 0px;
