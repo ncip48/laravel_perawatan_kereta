@@ -430,8 +430,8 @@ class ChecksheetController extends Controller
             ->join('master_kereta', 'checksheet.id_kereta', '=', 'master_kereta.id')
             ->whereMonth('date_time', $bulan_asli)
             ->whereYear('date_time', $tahun_asli)
-            ->orderBy('tipe', 'desc')
             ->orderBy('date_time', 'asc')
+            ->orderBy('tipe', 'asc')
             ->get();
 
         $detail2 = $detail2->map(function ($xitem) {
