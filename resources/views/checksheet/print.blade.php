@@ -35,14 +35,14 @@
             margin-right: -0.7cm;
         }
 
-        /* .section_checksheet {
+        /* .section_foto {
             margin-top: 0.2cm;
             margin-bottom: 0.5cm;
             margin-left: 0.5cm;
-            margin-right: -0.5cm;
-        }
+            margin-right: -1.5cm;
+        } */
 
-        */
+
         .text {
             text-transform: uppercase;
         }
@@ -775,7 +775,7 @@
         </div>
 
         <div class="section_foto">
-            <div>
+            <div style="margin-right: -0.5cm">
                 <table align="center" style="width: 100%;">
                     <thead>
                         <tr>
