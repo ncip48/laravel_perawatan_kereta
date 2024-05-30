@@ -45,14 +45,16 @@
 
 <body>
     <div class="app app-auth-sign-in align-content-stretch d-flex flex-wrap justify-content-end">
-        <div class="app-auth-background">
+        <div class="app-auth-background d-lg-none d-xl-block">
             <h4 style="margin-top: 15rem" class="text-center justify-content-center">Perawatan Kereta Api</h4>
             <h4 class="text-center justify-content-center">By PT INKA MULTI SOLUSI SERVICE</h4>
         </div>
         <div class="app-auth-container">
             <div class="logo">
                 <a href="#" class="text-center">INKA MULTI SOLUSI SERVICE</a>
-                <p class="auth-description">Silahkan Login menggunakan username dan password yang diberikan</p>
+                <p class="auth-description text-justify">Silahkan Login menggunakan NIP dan password yang sudah
+                    disediakan atau
+                    didaftarkan oleh administrator. Jika belum mempunyai akun, silahkan hubungi administrator/IT</p>
             </div>
             @if (session()->has('error'))
                 <div class="alert alert-danger alert-style-light" role="alert">
@@ -62,13 +64,13 @@
             <form method="POST" action="{{ route('login.action') }}" autocomplete="off">
                 @csrf
                 <div class="auth-credentials m-b-xxl">
-                    <label for="signInEmail" class="form-label">Email</label>
-                    <input type="text" class="form-control m-b-md" id="signInEmail" aria-describedby="signInEmail"
-                        placeholder="email@gmail.com" name="email">
+                    <label for="signInNIP" class="form-label">NIP</label>
+                    <input type="text" class="form-control m-b-md" id="signInNIP" aria-describedby="signInNIP"
+                        placeholder="1101" name="nip">
 
                     <label for="signInPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="signInPassword" aria-describedby="signInPassword"
-                        placeholder="Masukan password" name="password">
+                        placeholder="********" name="password">
                 </div>
 
                 <div class="auth-submit">

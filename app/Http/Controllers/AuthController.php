@@ -17,15 +17,15 @@ class AuthController extends Controller
         $input = $request->all();
 
         $this->validate($request, [
-            'email' => 'required',
+            'nip' => 'required',
             'password' => 'required',
         ], [
-            'email.required' => 'Username harus diisi',
+            'nip.required' => 'NIP harus diisi',
             'password.required' => 'Password harus diisi'
         ]);
 
-        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            $user = User::where('email', $input['email'])->first();
+        if (auth()->attempt(array('nip' => $input['nip'], 'password' => $input['password']))) {
+            $user = User::where('nip', $input['nip'])->first();
             //cek login jika teknisi maka tolak
             if ($user->role == 3) {
                 return redirect()->route('login')
@@ -34,7 +34,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard.index');
         } else {
             return redirect()->route('login')
-                ->with('error', 'Username atau Password salah.');
+                ->with('error', 'NIP atau Password salah.');
         }
     }
 
