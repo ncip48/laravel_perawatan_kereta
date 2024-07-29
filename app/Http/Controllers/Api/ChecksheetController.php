@@ -239,8 +239,13 @@ class ChecksheetController extends Controller
             'so' => 'required',
         ];
 
+        if ($request->so == '0') {
+            $rules['est_tso'] = 'required';
+        };
+
         $messages = [
             'so.required' => 'Status SO/TSO tidak boleh kosong',
+            'est_tso.required' => 'Atur estimasi tanggal perbaikan'
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -251,6 +256,7 @@ class ChecksheetController extends Controller
                 'validation' => true,
                 'message' => [
                     'so' => $response->first('so') != '' ? $response->first('so') : null,
+                    'est_tso' => $response->first('est_tso') != '' ? $response->first('est_tso') : null,
                 ],
             ];
             return ResponseController::customResponse(false, 'Gagal mengubah status SO/TSO!', $response);
@@ -259,6 +265,7 @@ class ChecksheetController extends Controller
         $data = Checksheet::where('id', $request->id_checksheet)
             ->update([
                 'is_so' => $request->so,
+                'est_tso' => $request->est_tso,
             ]);
 
         return ResponseController::customResponse(true, 'Berhasil mengubah status SO/TSO!', $data);

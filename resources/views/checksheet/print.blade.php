@@ -437,7 +437,10 @@
                                 @endif
                             </td>
                             <td style="border: 1px solid #ccc;text-align:center">
-
+                                @if ($item->is_so == '0')
+                                    Rencana perbaikan sarana pada tanggal
+                                    {{ \Carbon\Carbon::parse($item->est_tso)->isoFormat('dddd, D MMMM Y') }}
+                                @endif
                             </td>
                         </tr>
                     </tbody>
@@ -665,6 +668,18 @@
                                         </h4>
                                     </td>
                                 </tr>
+                                @if (isset($detail->is_so))
+                                    @if ($detail->is_so == '0')
+                                        <tr>
+                                            <td style="padding-left: 13px">
+                                                <h4 style="font-size:10px;font-weight:normal;padding:0px;margin:0px">-
+                                                    Estimasi Perbaikan Sarana :
+                                                    {{ \Carbon\Carbon::parse($detail->est_tso)->isoFormat('dddd, D MMMM Y') }}
+                                                </h4>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endif
                             </table>
                             <table class="kelas" style="margin-top:5px">
                                 <tr style="border-top: 1px solid black!important;">
@@ -686,6 +701,17 @@
                                         </h4>
                                     </td>
                                 </tr>
+                                @foreach ($detail->keterangans as $ket)
+                                    <tr>
+                                        {{-- <td style="text-align: right;width:1.8rem">
+                </td> --}}
+                                        <td style="padding-left: 13px">
+                                            <h4 style="font-size:10px;font-weight:normal;padding:0px;margin:0px">
+                                                {!! nl2br(e($ket)) !!}
+                                            </h4>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </table>
                             <table class="kelas" style="margin-top:5px;margin-bottom:10px;">
                                 <tr>
@@ -811,43 +837,46 @@
                         @endforelse
                     </tbody>
                 </table>
-                <div class="page_break"></div>
-                <table align="center" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th colspan="2" style="text-align: center;height:1.6cm">
-                                <h5>DOKUMENTASI PERAWATAN {{ $detail_bulanan[0]->p }} PERIODE {{ $bulan }}
-                                    {{ $tahun }}</h5>
-                                <h5>KERETA {{ strtoupper($detail->nama_kereta) }}</h5>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($detail_bulanan as $item)
+                @if (count($detail_bulanan) > 0)
+
+                    <div class="page_break"></div>
+                    <table align="center" style="width: 100%;">
+                        <thead>
                             <tr>
-                                <td colspan="2" style="text-align: center;">
-                                    <div class="photos">
-                                        @php
-                                            $filePath = public_path('foto/' . $item->foto);
-                                            $gambar = file_get_contents($filePath);
-                                            $gambar = base64_encode($gambar);
-                                            $gambar = 'data:image/jpeg;base64,' . $gambar;
-                                        @endphp
-                                        <img src="{{ $gambar }}" alt="{{ $item->nama_item }}" width="340px"
-                                            height="265px" style="object-fit: fill">
-                                    </div>
-                                    <p class="small">{{ $item->nama_item }}</p>
-                                </td>
+                                <th colspan="2" style="text-align: center;height:1.6cm">
+                                    <h5>DOKUMENTASI PERAWATAN {{ $detail_bulanan[0]->p }} PERIODE {{ $bulan }}
+                                        {{ $tahun }}</h5>
+                                    <h5>KERETA {{ strtoupper($detail->nama_kereta) }}</h5>
+                                </th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="2" style="text-align: center;">
-                                    <p>Tidak ada foto</p>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse ($detail_bulanan as $item)
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <div class="photos">
+                                            @php
+                                                $filePath = public_path('foto/' . $item->foto);
+                                                $gambar = file_get_contents($filePath);
+                                                $gambar = base64_encode($gambar);
+                                                $gambar = 'data:image/jpeg;base64,' . $gambar;
+                                            @endphp
+                                            <img src="{{ $gambar }}" alt="{{ $item->nama_item }}"
+                                                width="340px" height="265px" style="object-fit: fill">
+                                        </div>
+                                        <p class="small">{{ $item->nama_item }}</p>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <p>Tidak ada foto</p>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
 

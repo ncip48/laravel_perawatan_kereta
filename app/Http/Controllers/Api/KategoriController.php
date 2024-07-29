@@ -26,6 +26,7 @@ class KategoriController extends Controller
         $checksheet = new stdClass();
         $checksheet->id = $oldChecksheet->id ?? null;
         $checksheet->is_so = $oldChecksheet->is_so ?? null;
+        $checksheet->est_tso = $oldChecksheet->est_tso ?? null;
         $checksheet->categories = $categories;
         return ResponseController::customResponse(true, 'Berhasil mendapakan Kategori!', $checksheet);
     }

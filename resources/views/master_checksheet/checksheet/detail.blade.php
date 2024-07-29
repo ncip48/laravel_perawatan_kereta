@@ -35,16 +35,49 @@
                                     <tr>
                                         <td>Tanggal</td>
                                         <td>:</td>
-                                        <td>{{ $detail->date_time }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($detail->date_time)->isoFormat('dddd, D MMMM Y') }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Tipe Laporan</td>
                                         <td>:</td>
                                         <td>{{ $detail->tipe == 0 ? 'Harian' : "Bulanan ($detail->p)" }}</td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Sarana</td>
+                                        <td>:</td>
+                                        <td>
+                                            @if (isset($detail->is_so))
+                                                @if ($detail->is_so == '0')
+                                                    <span class="badge bg-danger">TSO</span>
+                                                @else
+                                                    <span class="badge bg-success">SO</span>
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @if ($detail->is_so == '0')
+                                        <tr>
+                                            <td>Estimasi Perbaikan</td>
+                                            <td>:</td>
+                                            <td>
+                                                @if ($detail->est_tso)
+                                                    {{ \Carbon\Carbon::parse($detail->est_tso)->isoFormat('dddd, D MMMM Y') }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </table>
                             </div>
-                            <h5 class="card-title">Detail Checksheet Perawatan</h5>
                         </div>
                         <div class="card-body">
                             <a href="{{ route('checksheet.index') }}" class="btn btn-danger"><i
@@ -70,7 +103,7 @@
                                             <tr class="text-center">
                                                 @foreach ($cars as $car)
                                                     <th>OK</th>
-                                                    <th>NG</th>
+                                                    <th>Jelek</th>
                                                 @endforeach
                                             </tr>
                                         </thead>

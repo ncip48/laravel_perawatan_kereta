@@ -226,8 +226,11 @@
                                 -
                             @endif
                         </td>
-                        <td style="border: 1px solid #ccc;text-align:center">
-
+                        <td style="border: 1px solid #ccc;text-align:left">
+                            @if ($item->is_so == '0')
+                                Rencana perbaikan sarana pada tanggal
+                                {{ \Carbon\Carbon::parse($item->est_tso)->isoFormat('dddd, D MMMM Y') }}
+                            @endif
                         </td>
                     </tr>
                 </tbody>

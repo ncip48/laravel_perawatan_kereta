@@ -340,6 +340,17 @@
                         @endif
                     </h4>
                 </td>
+                @if (isset($detail->is_so))
+                    @if ($detail->is_so == '0')
+            <tr>
+                <td style="padding-left: 13px">
+                    <h4 style="font-size:10px;font-weight:normal;padding:0px;margin:0px">- Estimasi Perbaikan Sarana :
+                        {{ \Carbon\Carbon::parse($detail->est_tso)->isoFormat('dddd, D MMMM Y') }}
+                    </h4>
+                </td>
+            </tr>
+            @endif
+            @endif
             </tr>
         </table>
         <table class="kelas" style="margin-top:5px">
@@ -359,6 +370,17 @@
                     </h4>
                 </td>
             </tr>
+            @foreach ($keterangans as $ket)
+                <tr>
+                    {{-- <td style="text-align: right;width:1.8rem">
+                </td> --}}
+                    <td style="padding-left: 13px">
+                        <h4 style="font-size:10px;font-weight:normal;padding:0px;margin:0px">
+                            {!! nl2br(e($ket)) !!}
+                        </h4>
+                    </td>
+                </tr>
+            @endforeach
         </table>
         <table class="kelas" style="margin-top:5px;margin-bottom:10px;">
             <tr>
@@ -414,7 +436,8 @@
                                     @endif
                                 </span></td>
                             {{-- <td><span class="underline">____________</span> </td> --}}
-                            <td style="text-align: center;"><span class="underline">{{ $detail->teknisi->name }}</span>
+                            <td style="text-align: center;"><span
+                                    class="underline">{{ $detail->teknisi->name }}</span>
                             </td>
                         </tr>
                         <tr>

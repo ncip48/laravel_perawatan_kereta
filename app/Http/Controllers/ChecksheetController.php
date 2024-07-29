@@ -220,10 +220,13 @@ class ChecksheetController extends Controller
             return $item;
         });
         $cars = json_decode($detail->car);
+
+        //keterangan
+        $keterangans = Detail_checksheet::where('id_checksheet', $id)->whereNotNull('keterangan')->get()->pluck('keterangan');
         // return view('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars'));
         // dd($categories);
 
-        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars'));
+        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars', 'keterangans'));
         $pdf->setPaper('A4', 'potrait');
         $title = 'Checksheet' . $detail->nama_kereta . ' - ' . $detail->tanggal;
 
@@ -448,6 +451,8 @@ class ChecksheetController extends Controller
 
             $categories = Kategori_checksheet::where('id_kereta', $xitem->id_kereta)->get();
             $id = $xitem->id;
+            //keterangan
+            $keterangans = Detail_checksheet::where('id_checksheet', $id)->whereNotNull('keterangan')->get()->pluck('keterangan');
             $categories = $categories->map(function ($item) use ($id, $xitem) {
                 $items = Item_checksheet::where('id_kategori_checksheet', $item->id)->where('id_kereta', $xitem->id_kereta);
                 if ($xitem->tipe == 0) {
@@ -474,6 +479,7 @@ class ChecksheetController extends Controller
             });
             $xitem->cars = json_decode($xitem->car);
             $xitem->categories = $categories;
+            $xitem->keterangans = $keterangans;
 
             return $xitem;
         });
