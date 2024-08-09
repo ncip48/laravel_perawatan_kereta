@@ -223,10 +223,12 @@ class ChecksheetController extends Controller
 
         //keterangan
         $keterangans = Detail_checksheet::where('id_checksheet', $id)->whereNotNull('keterangan')->get()->pluck('keterangan');
+        $ok = Detail_checksheet::where('id_checksheet', $id)->where('hasil', '1')->count();
+        $ng = Detail_checksheet::where('id_checksheet', $id)->where('hasil', '0')->count();
         // return view('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars'));
         // dd($categories);
 
-        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars', 'keterangans'));
+        $pdf = Pdf::loadview('master_checksheet.checksheet.print', compact('detail', 'categories', 'cars', 'keterangans', 'ok', 'ng'));
         $pdf->setPaper('A4', 'potrait');
         $title = 'Checksheet' . $detail->nama_kereta . ' - ' . $detail->tanggal;
 

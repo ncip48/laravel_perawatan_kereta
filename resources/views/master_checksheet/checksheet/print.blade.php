@@ -321,6 +321,22 @@
                 </td>
             </tr>
             <tr>
+                <td style="padding-left: 13px">
+                    <h4 style="font-size:10px;font-weight:normal;padding:0px;margin:0px">- Berdasarkan hasil
+                        pemeriksaan,
+                        jumlah item yang baik sejumlah {{ $ok }}
+                    </h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 13px">
+                    <h4 style="font-size:10px;font-weight:normal;padding:0px;margin:0px">- Berdasarkan hasil
+                        pemeriksaan,
+                        jumlah item yang tidak baik sejumlah {{ $ng }}
+                    </h4>
+                </td>
+            </tr>
+            <tr>
                 {{-- <td style="text-align: right;width:1.8rem">
                 </td> --}}
                 <td style="padding-left: 13px">

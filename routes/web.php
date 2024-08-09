@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChecksheetController;
 use App\Http\Controllers\ChecksheetDetailController;
 use App\Http\Controllers\DashboardController;
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('login.login');
 })->name('login');
+
+Route::get('/autologin', [AuthController::class, 'autologin']);
 
 // Route::get('/', function () {
 //     return view('welcome');

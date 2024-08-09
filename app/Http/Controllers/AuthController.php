@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Api\ResponseController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -42,5 +43,23 @@ class AuthController extends Controller
     {
         auth()->logout();
         return redirect()->route('login');
+    }
+
+    public function autologin(Request $request)
+    {
+        $nip = $request->nip;
+        $user = User::where('nip', $nip)->first();
+        if ($user) {
+            //cek login jika teknisi maka tolak
+            if ($user->role == 3) {
+                return redirect()->route('login')
+                    ->with('error', 'Tidak diijinkan masuk.');
+            }
+            Auth::login($user);
+            return redirect()->route('dashboard.index');
+        } else {
+            return redirect()->route('login')
+                ->with('error', 'NIP atau Password salah.');
+        }
     }
 }
